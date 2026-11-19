@@ -1211,6 +1211,14 @@ p {
   background: #e2e2dc;
 }
 
+.agent-options .email-shown {
+  font-size: 15px;
+  line-height: 1.3;
+  word-break: break-all;
+  user-select: text;
+  cursor: text;
+}
+
 .sign-in {
   min-height: 100vh;
   display: flex;

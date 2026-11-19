@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { contactOptions, type PublicAgent } from "../lib/agents";
 
@@ -9,6 +9,7 @@ type AgentContactModalProps = {
 
 export function AgentContactModal({ agent, onClose }: AgentContactModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
+  const [emailShown, setEmailShown] = useState(false);
   const options = contactOptions(agent);
 
   useEffect(() => {
@@ -65,17 +66,28 @@ export function AgentContactModal({ agent, onClose }: AgentContactModalProps) {
         <h2 id="agent-contact-title">{agent.fullName}</h2>
         <p className="agent-modal-note">Choose how to reach {agent.fullName.split(" ")[0]}.</p>
         <div className="agent-options">
-          {options.map((option) => (
-            <a
-              key={option.label}
-              className={option.label === "Call" ? "btn gold" : "btn"}
-              href={option.href}
-              {...(option.external ? { target: "_blank", rel: "noreferrer" } : {})}
-            >
-              {option.label}
-              {option.label === "Call" ? ` ${agent.contactNumber}` : ""}
-            </a>
-          ))}
+          {options.map((option) =>
+            option.label === "Email" ? (
+              <button
+                key={option.label}
+                type="button"
+                className={emailShown ? "btn email-shown" : "btn"}
+                onClick={() => setEmailShown(true)}
+              >
+                {emailShown ? agent.email : "Email"}
+              </button>
+            ) : (
+              <a
+                key={option.label}
+                className={option.label === "Call" ? "btn gold" : "btn"}
+                href={option.href}
+                {...(option.external ? { target: "_blank", rel: "noreferrer" } : {})}
+              >
+                {option.label}
+                {option.label === "Call" ? ` ${agent.contactNumber}` : ""}
+              </a>
+            ),
+          )}
         </div>
       </div>
     </div>
