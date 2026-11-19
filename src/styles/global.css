@@ -719,7 +719,17 @@ p {
 .section-cta {
   display: flex;
   justify-content: center;
-  padding: 8px var(--pad) 36px;
+  padding: 56px var(--pad) 88px;
+}
+
+.section-cta .btn {
+  min-width: min(100%, 280px);
+  padding: 16px 34px;
+  box-shadow: 0 16px 34px rgba(233, 152, 54, 0.32);
+}
+
+.section-cta .btn:hover {
+  transform: translateY(-2px);
 }
 
 .footer-logo {
@@ -1138,22 +1148,39 @@ p {
   z-index: 90;
   display: grid;
   place-items: center;
-  padding: 28px;
-  background: rgba(13, 13, 15, 0.72);
+  padding: 28px 20px;
+  background: rgba(13, 13, 15, 0.46);
+  backdrop-filter: blur(10px);
 }
 
 .agent-modal-card {
   position: relative;
-  width: min(100%, 460px);
+  width: min(100%, 420px);
   background: white;
   color: var(--ink);
-  border-radius: 28px;
-  padding: 36px 28px 28px;
+  border-radius: 32px;
+  padding: 36px 24px 24px;
+  text-align: center;
+  box-shadow: 0 28px 70px rgba(13, 13, 15, 0.24);
+}
+
+.agent-modal-card .agent-photo {
+  width: 104px;
+  height: 104px;
+  margin: 4px auto 18px;
+  border: 4px solid white;
+  box-shadow: 0 0 0 3px var(--gold), 0 12px 28px rgba(13, 13, 15, 0.14);
 }
 
 .agent-modal-card h2 {
-  font-size: clamp(36px, 5vw, 52px);
-  margin: 8px 0 20px;
+  font-size: clamp(40px, 6vw, 56px);
+  margin: 8px 0 8px;
+}
+
+.agent-modal-note {
+  color: var(--muted);
+  font-size: 15px;
+  margin: 0 0 22px;
 }
 
 .agent-modal .lightbox-close {
@@ -1162,11 +1189,26 @@ p {
 
 .agent-options {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .agent-options .btn {
   width: 100%;
+  min-height: 54px;
+  font-size: 16px;
+}
+
+.agent-options .btn.gold {
+  box-shadow: 0 12px 26px rgba(250, 184, 104, 0.45);
+}
+
+.agent-options .btn:not(.gold) {
+  background: var(--light);
+  color: var(--ink);
+}
+
+.agent-options .btn:not(.gold):hover {
+  background: #e2e2dc;
 }
 
 .sign-in {

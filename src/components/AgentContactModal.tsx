@@ -63,6 +63,7 @@ export function AgentContactModal({ agent, onClose }: AgentContactModalProps) {
         {agent.photoUrl && <img className="agent-photo" src={agent.photoUrl} alt="" />}
         <p className="kicker">BYD Glorietta</p>
         <h2 id="agent-contact-title">{agent.fullName}</h2>
+        <p className="agent-modal-note">Choose how to reach {agent.fullName.split(" ")[0]}.</p>
         <div className="agent-options">
           {options.map((option) => (
             <a
