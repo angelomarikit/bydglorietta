@@ -1,0 +1,269 @@
+import { posts, photos, ratios } from "./content";
+
+export const websiteCopy = {
+  home: {
+    heroKicker: "BYD Glorietta · Makati",
+    heroTitle: "Sealion 6",
+    heroButton: "See the car",
+    statement:
+      "A 5-seat compact SUV at Glorietta, Makati. Super DM-i, an 18.3 kWh Blade Battery, and 1,200 km combined range.",
+    rangeText: "Combined range on both Dynamic and Premium. AC charging takes 2.8 hours from 15% to 100%.",
+    dmiTitle: "Super DM-i",
+    dmiText: "Premium adds DC charging in 0.5 hours from 30% to 80%. The key visual lists 100 km of full-EV range.",
+    experienceTitle: "The award-winning choice, made better",
+    nowAt: "Now at",
+    showroomName: "BYD Glorietta, Makati City",
+    priceLine:
+      "Dynamic ₱1,548,000. Premium ₱1,798,000. Colours on the sheet are Arctic White, Harbour Grey, and Delan Black. The photographs are the Delan Black car.",
+    testDrive: "Request a test drive",
+    sideImage: "",
+    keyVisual: "",
+    showcaseEyebrow: "Sealion 6",
+    showcaseTitle: "Compact SUV from ₱1,548,000",
+    techTitle: "Blade Battery, Super DM-i, and DiPilot on Premium",
+    techBody:
+      "The price list prints the range, the battery, and the charging times. The key visual adds 217 Ps, 300 Nm, vehicle-to-load, and DiPilot ADAS on Premium. Those extra lines are campaign claims, ASC Ref M0176N111126B.",
+    specSheet: "",
+    newsTitle: "From the showroom",
+    ctaTitle: "Ready for a test drive at Glorietta?",
+    ctaButton: "Request a drive",
+  },
+  car: {
+    heroImage: "",
+    frontImage: "",
+    cabinImage: "",
+    title: "Sealion 6",
+    price: "₱1,798,000",
+    priceNote: "Premium SRP. Dynamic is ₱1,548,000. Prices as of 12 November 2026.",
+    rangeLabel: "Combined range",
+    rangeValue: "1,200 km",
+    outputLabel: "Output on the key visual",
+    outputValue: "217 Ps",
+    batteryLabel: "Blade Battery",
+    batteryValue: "18.3 kWh",
+    optionTitle0: "Delan Black",
+    optionText0: "The photographed exterior colour.",
+    optionImage0: "",
+    optionTitle1: "Side view",
+    optionText1: "Same Delan Black car, side profile.",
+    optionImage1: "",
+    optionTitle2: "Rear view",
+    optionText2: "Same Delan Black car, from behind.",
+    optionImage2: "",
+    optionTitle3: "Premium",
+    optionText3: "₱1,798,000. Adds DC charging.",
+    optionImage3: "",
+    optionTitle4: "Dynamic",
+    optionText4: "₱1,548,000. Same range and battery.",
+    optionImage4: "",
+    optionTitle5: "DiPilot on Premium",
+    optionText5: "Printed on the key visual, not as a price-list row.",
+    optionImage5: "",
+    showroomTitle: "Showroom",
+    showroom:
+      "BYD Glorietta, Glorietta, Makati City, Philippines. The national site printed on the specification sheet is www.bydcarsph.com.",
+    priceListTitle: "What the price list prints",
+    priceList:
+      "Both variants share the 1,200 km combined range and the 18.3 kWh battery. Dynamic lists AC charging in 2.8 hours from 15% to 100%. Premium lists DC charging in 0.5 hours from 30% to 80%.",
+    notClaimTitle: "What this page does not claim",
+    notClaim:
+      "No all-wheel drive, no 0–100 time, no lease, and no deposit. The 100 km full-EV figure is on the key visual, not a separate price-list row.",
+    noteKicker: "12 November 2026",
+    note: "Suggested retail prices can change and can vary by dealer and location. Provincial prices may be higher.",
+    testDrive: "Request a test drive",
+  },
+  contact: {
+    kicker: "Contact",
+    title: "Glorietta",
+    photo: "",
+    showroomLabel: "Showroom",
+    showroom: "Glorietta, Makati City, Philippines",
+    websiteLabel: "Website",
+    website: "bydcarsph.com",
+    note: "No phone number or email is printed in the supplied materials, so none is invented here.",
+    sentTitle: "Message kept on this page only.",
+    sentBody: "Use www.bydcarsph.com to reach the brand while this form has no inbox behind it.",
+    send: "Send message",
+  },
+  drive: {
+    kicker: "Test drive",
+    title: "Request a drive",
+    photo: "",
+    note: "This is an enquiry for the Glorietta showroom. It does not reserve a car or take a payment.",
+    sentTitle: "Request noted on this device.",
+    sentBody: "A live booking desk is not connected yet. Use www.bydcarsph.com to book the drive.",
+    send: "Send enquiry",
+  },
+  blog: {
+    kicker: "Showroom notes",
+    title: "From Glorietta",
+  },
+  footer: {
+    visit: "Visit Glorietta.",
+    about: "BYD Glorietta is the Makati showroom. Vehicle details follow the BYD price list dated 12 November 2026.",
+    testDrive: "Test drive",
+    copyright: "© BYD Glorietta. SRPs as of 12 November 2026.",
+  },
+  notes: posts.map((post) => ({
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt,
+    body: post.body.join("\n\n"),
+    image: "",
+  })),
+};
+
+export type WebsiteNote = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  body: string;
+  image: string;
+};
+
+export type WebsiteCopy = {
+  home: { [K in keyof typeof websiteCopy.home]: string };
+  car: { [K in keyof typeof websiteCopy.car]: string };
+  contact: { [K in keyof typeof websiteCopy.contact]: string };
+  drive: { [K in keyof typeof websiteCopy.drive]: string };
+  blog: { [K in keyof typeof websiteCopy.blog]: string };
+  footer: { [K in keyof typeof websiteCopy.footer]: string };
+  notes: WebsiteNote[];
+};
+
+export type WebsiteSectionKey = "home" | "car" | "contact" | "drive" | "blog" | "footer";
+
+export const websiteSections: {
+  key: WebsiteSectionKey;
+  label: string;
+  detail: string;
+  fields: { key: string; label: string; long?: boolean; image?: boolean; ratio?: string; fallback?: string }[];
+}[] = [
+  {
+    key: "home",
+    label: "Home",
+    detail: "Words and photographs, in the order they appear on the page.",
+    fields: [
+      { key: "heroKicker", label: "Hero line" },
+      { key: "heroTitle", label: "Hero title" },
+      { key: "heroButton", label: "Hero button" },
+      { key: "statement", label: "Introduction", long: true },
+      { key: "rangeText", label: "Range note", long: true },
+      { key: "dmiTitle", label: "Second card title" },
+      { key: "dmiText", label: "Second card note", long: true },
+      { key: "experienceTitle", label: "Middle heading" },
+      { key: "nowAt", label: "Location line" },
+      { key: "showroomName", label: "Showroom name" },
+      { key: "priceLine", label: "Price paragraph", long: true },
+      { key: "testDrive", label: "Test drive button" },
+      { key: "sideImage", label: "Photograph beside the price", image: true, ratio: ratios.gallery, fallback: photos.exterior[2] },
+      { key: "keyVisual", label: "Key visual", image: true, ratio: ratios.kv, fallback: photos.kv },
+      { key: "showcaseEyebrow", label: "Showcase line" },
+      { key: "showcaseTitle", label: "Showcase title" },
+      { key: "techTitle", label: "Specification heading" },
+      { key: "techBody", label: "Specification paragraph", long: true },
+      { key: "specSheet", label: "Specification sheet", image: true, ratio: ratios.sheet, fallback: photos.sheet },
+      { key: "newsTitle", label: "Notes heading" },
+      { key: "ctaTitle", label: "Closing heading" },
+      { key: "ctaButton", label: "Closing button" },
+    ],
+  },
+  {
+    key: "car",
+    label: "Car details",
+    detail: "Price, specifications, and showroom notes.",
+    fields: [
+      { key: "heroImage", label: "Main photograph", image: true, ratio: ratios.gallery, fallback: photos.hero },
+      { key: "frontImage", label: "Front photograph", image: true, ratio: ratios.gallery, fallback: photos.exterior[1] },
+      { key: "cabinImage", label: "Cabin photograph", image: true, ratio: ratios.gallery, fallback: photos.interior[0] },
+      { key: "title", label: "Title" },
+      { key: "price", label: "Price" },
+      { key: "priceNote", label: "Price note", long: true },
+      { key: "rangeLabel", label: "Range label" },
+      { key: "rangeValue", label: "Range" },
+      { key: "outputLabel", label: "Output label" },
+      { key: "outputValue", label: "Output" },
+      { key: "batteryLabel", label: "Battery label" },
+      { key: "batteryValue", label: "Battery" },
+      { key: "optionImage0", label: "Card 1 photograph", image: true, ratio: ratios.gallery, fallback: photos.exterior[0] },
+      { key: "optionTitle0", label: "Card 1 title" },
+      { key: "optionText0", label: "Card 1 note" },
+      { key: "optionImage1", label: "Card 2 photograph", image: true, ratio: ratios.gallery, fallback: photos.exterior[2] },
+      { key: "optionTitle1", label: "Card 2 title" },
+      { key: "optionText1", label: "Card 2 note" },
+      { key: "optionImage2", label: "Card 3 photograph", image: true, ratio: ratios.gallery, fallback: photos.exterior[4] },
+      { key: "optionTitle2", label: "Card 3 title" },
+      { key: "optionText2", label: "Card 3 note" },
+      { key: "optionImage3", label: "Card 4 photograph", image: true, ratio: ratios.premium, fallback: photos.interiorPremium[0] },
+      { key: "optionTitle3", label: "Card 4 title" },
+      { key: "optionText3", label: "Card 4 note" },
+      { key: "optionImage4", label: "Card 5 photograph", image: true, ratio: ratios.gallery, fallback: photos.spin[1] },
+      { key: "optionTitle4", label: "Card 5 title" },
+      { key: "optionText4", label: "Card 5 note" },
+      { key: "optionImage5", label: "Card 6 photograph", image: true, ratio: ratios.gallery, fallback: photos.interior[3] },
+      { key: "optionTitle5", label: "Card 6 title" },
+      { key: "optionText5", label: "Card 6 note" },
+      { key: "showroomTitle", label: "Showroom heading" },
+      { key: "showroom", label: "Showroom", long: true },
+      { key: "priceListTitle", label: "Price list heading" },
+      { key: "priceList", label: "Price list", long: true },
+      { key: "notClaimTitle", label: "Limits heading" },
+      { key: "notClaim", label: "Limits", long: true },
+      { key: "noteKicker", label: "Date line" },
+      { key: "note", label: "Price reminder", long: true },
+      { key: "testDrive", label: "Test drive button" },
+    ],
+  },
+  {
+    key: "contact",
+    label: "Contact",
+    detail: "Showroom address and the message form.",
+    fields: [
+      { key: "kicker", label: "Line" },
+      { key: "title", label: "Heading" },
+      { key: "photo", label: "Photograph", image: true, ratio: ratios.gallery, fallback: photos.exterior[3] },
+      { key: "showroomLabel", label: "Showroom label" },
+      { key: "showroom", label: "Showroom" },
+      { key: "websiteLabel", label: "Website label" },
+      { key: "website", label: "Website" },
+      { key: "note", label: "Note", long: true },
+      { key: "sentTitle", label: "Sent heading" },
+      { key: "sentBody", label: "Sent note", long: true },
+      { key: "send", label: "Send button" },
+    ],
+  },
+  {
+    key: "drive",
+    label: "Test drive",
+    detail: "The enquiry page.",
+    fields: [
+      { key: "kicker", label: "Line" },
+      { key: "title", label: "Heading" },
+      { key: "photo", label: "Photograph", image: true, ratio: ratios.gallery, fallback: photos.exterior[1] },
+      { key: "note", label: "Note", long: true },
+      { key: "sentTitle", label: "Sent heading" },
+      { key: "sentBody", label: "Sent note", long: true },
+      { key: "send", label: "Send button" },
+    ],
+  },
+  {
+    key: "blog",
+    label: "Showroom notes",
+    detail: "The notes page heading. Each note is edited on its own.",
+    fields: [
+      { key: "kicker", label: "Line" },
+      { key: "title", label: "Heading" },
+    ],
+  },
+  {
+    key: "footer",
+    label: "Footer",
+    detail: "The line at the bottom of every page.",
+    fields: [
+      { key: "visit", label: "Heading" },
+      { key: "about", label: "About", long: true },
+      { key: "testDrive", label: "Test drive button" },
+      { key: "copyright", label: "Copyright" },
+    ],
+  },
+];

@@ -1,0 +1,582 @@
+{
+  "meta": {
+    "market": "Philippines",
+    "dealer": "BYD Glorietta, Makati City",
+    "distributor": "ACMobility",
+    "currency": "PHP",
+    "priceList": {
+      "title": "BYD Price List",
+      "effectiveDate": "2026-11-12",
+      "sourcePdf": "reference-materials/05-price-lists/byd-2026-pricelist-november-2026.pdf",
+      "sourcePages": [
+        "reference-materials/05-price-lists/byd-2026-pricelist-november-2026-page-01.jpg",
+        "reference-materials/05-price-lists/byd-2026-pricelist-november-2026-page-02.jpg",
+        "reference-materials/05-price-lists/byd-2026-pricelist-november-2026-page-03.jpg"
+      ],
+      "disclaimer": "SRPs are valid as of November 12, 2026 and are subject to change without prior notice. Prices may vary by dealer and location. Provincial prices may be slightly higher due to transportation and logistics costs."
+    },
+    "verification": "The PDF has no text layer. Prices below were read from isolated zooms of each price. Specification figures were read from the specification column, with Sealion 6 DM-i, Shark 6 DMO, and every model on page 3 confirmed again on isolated blocks. See docs/price-verification.md.",
+    "photography": "Standalone photography exists only for Sealion 6 DM-i. Other models appear only as small renderings inside the price-list artwork."
+  },
+  "models": [
+    {
+      "slug": "the-new-seal-5-dm-i",
+      "name": "The New Seal 5 DM-i",
+      "priceListPage": 1,
+      "sortOrder": 1,
+      "bodyStyle": "Subcompact Sedan",
+      "seats": 5,
+      "powertrain": "5th Gen Super DM-i",
+      "specsScope": "shared-across-variants",
+      "imageStatus": "no-standalone-photography",
+      "colors": ["Arctic White", "Cosmos Black", "Harbour Grey", "Deep Sea Blue"],
+      "variants": [
+        {
+          "slug": "essential",
+          "name": "Essential",
+          "pricePhp": 948000,
+          "rangeKm": 1600,
+          "rangeLabel": "Combined Range",
+          "batteryKwh": 7.42,
+          "charging": [{ "type": "AC", "hours": "2.5", "window": "15%-100%" }]
+        },
+        {
+          "slug": "dynamic",
+          "name": "Dynamic",
+          "pricePhp": 1048000,
+          "rangeKm": 1600,
+          "rangeLabel": "Combined Range",
+          "batteryKwh": 7.42,
+          "charging": [{ "type": "AC", "hours": "2.5", "window": "15%-100%" }]
+        }
+      ]
+    },
+    {
+      "slug": "seagull",
+      "name": "Seagull",
+      "priceListPage": 1,
+      "sortOrder": 2,
+      "bodyStyle": "Mini Hatchback",
+      "seats": 5,
+      "powertrain": "Electric",
+      "specsScope": "single-variant",
+      "imageStatus": "no-standalone-photography",
+      "colors": ["Sprout Green", "Delan Black", "Apricity White"],
+      "variants": [
+        {
+          "slug": "standard",
+          "name": null,
+          "pricePhp": 968000,
+          "rangeKm": 300,
+          "rangeLabel": "NEDC",
+          "batteryKwh": 30,
+          "charging": [
+            { "type": "DC", "hours": "0.5", "window": "30%-80%" },
+            { "type": "AC", "hours": "5", "window": "0%-100%" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "atto-2-dm-i",
+      "name": "All-New Atto 2 DM-i",
+      "priceListPage": 1,
+      "sortOrder": 3,
+      "bodyStyle": "Subcompact SUV",
+      "seats": 5,
+      "powertrain": "Super DM-i",
+      "specsScope": "shared-across-variants",
+      "imageStatus": "no-standalone-photography",
+      "colors": ["Cosmos Black", "Ski White", "Harbour Grey", "Midnight Blue"],
+      "variants": [
+        {
+          "slug": "dynamic",
+          "name": "Dynamic",
+          "pricePhp": 1048000,
+          "rangeKm": 1045,
+          "rangeLabel": "Combined Range",
+          "batteryKwh": 7.9,
+          "charging": [{ "type": "AC", "hours": "2", "window": "15%-100%" }]
+        },
+        {
+          "slug": "premium",
+          "name": "Premium",
+          "pricePhp": 1258000,
+          "rangeKm": 1045,
+          "rangeLabel": "Combined Range",
+          "batteryKwh": 7.9,
+          "charging": [{ "type": "AC", "hours": "2", "window": "15%-100%" }]
+        }
+      ]
+    },
+    {
+      "slug": "atto-2-ev",
+      "name": "All-New Atto 2 EV",
+      "priceListPage": 1,
+      "sortOrder": 4,
+      "bodyStyle": "Subcompact SUV",
+      "seats": 5,
+      "powertrain": "Electric",
+      "specsScope": "single-variant",
+      "imageStatus": "no-standalone-photography",
+      "colors": ["Ski White", "Harbour Grey", "Midnight Blue", "Breeze Green"],
+      "variants": [
+        {
+          "slug": "premium",
+          "name": "Premium",
+          "pricePhp": 1338000,
+          "rangeKm": 380,
+          "rangeLabel": "NEDC",
+          "batteryKwh": 45.1,
+          "charging": [
+            { "type": "AC", "hours": "7.4", "window": "0%-100%" },
+            { "type": "DC", "hours": "0.4", "window": "10%-80%" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "dolphin",
+      "name": "Dolphin",
+      "priceListPage": 1,
+      "sortOrder": 5,
+      "bodyStyle": "Subcompact Hatchback",
+      "seats": 5,
+      "powertrain": "Electric",
+      "specsScope": "single-variant",
+      "imageStatus": "no-standalone-photography",
+      "colors": ["Urban Grey", "Cream White"],
+      "variants": [
+        {
+          "slug": "standard",
+          "name": null,
+          "pricePhp": 1438000,
+          "rangeKm": 405,
+          "rangeLabel": "NEDC",
+          "batteryKwh": 44.9,
+          "charging": [
+            { "type": "DC", "hours": "0.5", "window": "30%-80%" },
+            { "type": "AC", "hours": "8", "window": "0%-100%" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "sealion-5-dm-i",
+      "name": "Sealion 5 DM-i",
+      "priceListPage": 1,
+      "sortOrder": 6,
+      "bodyStyle": "Subcompact SUV",
+      "seats": 5,
+      "powertrain": "Super DM-i",
+      "specsScope": "single-variant",
+      "imageStatus": "no-standalone-photography",
+      "colors": ["Deep Sea Blue", "Cosmos Black", "Arctic White", "Harbour Grey"],
+      "variants": [
+        {
+          "slug": "standard",
+          "name": null,
+          "pricePhp": 1268000,
+          "rangeKm": 1001,
+          "rangeLabel": "Combined Range",
+          "batteryKwh": 12.96,
+          "charging": [{ "type": "AC", "hours": "4.5", "window": "15%-100%" }]
+        }
+      ]
+    },
+    {
+      "slug": "emax-7",
+      "name": "eMAX 7",
+      "priceListPage": 2,
+      "sortOrder": 7,
+      "bodyStyle": "Subcompact MPV",
+      "seats": null,
+      "powertrain": "Electric",
+      "specsScope": "per-variant",
+      "imageStatus": "no-standalone-photography",
+      "colors": ["Quartz Blue", "Cosmos Black", "Crystal White", "Harbour Grey"],
+      "variants": [
+        {
+          "slug": "standard",
+          "name": "Standard",
+          "seats": 7,
+          "pricePhp": 1548000,
+          "rangeKm": 420,
+          "rangeLabel": "NEDC",
+          "batteryKwh": 55.4,
+          "charging": [
+            { "type": "DC", "hours": "0.5", "window": "30%-80%" },
+            { "type": "AC", "hours": "9", "window": "0%-100%" }
+          ]
+        },
+        {
+          "slug": "superior-captain",
+          "name": "Superior Captain",
+          "seats": 6,
+          "pricePhp": 1768000,
+          "rangeKm": 530,
+          "rangeLabel": "NEDC",
+          "batteryKwh": 71.8,
+          "charging": [
+            { "type": "DC", "hours": "0.5", "window": "30%-80%" },
+            { "type": "AC", "hours": "13", "window": "0%-100%" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "sealion-6-dm-i",
+      "name": "Sealion 6 DM-i",
+      "priceListPage": 2,
+      "sortOrder": 8,
+      "bodyStyle": "Compact SUV",
+      "seats": 5,
+      "powertrain": "Super DM-i",
+      "specsScope": "per-variant",
+      "imageStatus": "photography-available",
+      "colors": ["Arctic White", "Harbour Grey", "Delan Black"],
+      "media": {
+        "hero": "assets/vehicles/sealion-6-dm-i/hero/sealion-6-dm-i-delan-black-exterior-01.jpg",
+        "banner": "assets/banners/sealion-6-dm-i-main-kv.jpg",
+        "exterior": [
+          "assets/vehicles/sealion-6-dm-i/exterior/sealion-6-dm-i-delan-black-exterior-01.jpg",
+          "assets/vehicles/sealion-6-dm-i/exterior/sealion-6-dm-i-delan-black-exterior-02.jpg",
+          "assets/vehicles/sealion-6-dm-i/exterior/sealion-6-dm-i-delan-black-exterior-03.jpg",
+          "assets/vehicles/sealion-6-dm-i/exterior/sealion-6-dm-i-delan-black-exterior-04.jpg",
+          "assets/vehicles/sealion-6-dm-i/exterior/sealion-6-dm-i-delan-black-exterior-05.jpg"
+        ],
+        "interior": [
+          "assets/vehicles/sealion-6-dm-i/interior/sealion-6-dm-i-interior-01.jpg",
+          "assets/vehicles/sealion-6-dm-i/interior/sealion-6-dm-i-interior-02.jpg",
+          "assets/vehicles/sealion-6-dm-i/interior/sealion-6-dm-i-interior-03.jpg",
+          "assets/vehicles/sealion-6-dm-i/interior/sealion-6-dm-i-interior-04.jpg",
+          "assets/vehicles/sealion-6-dm-i/interior/sealion-6-dm-i-interior-05.jpg",
+          "assets/vehicles/sealion-6-dm-i/interior/sealion-6-dm-i-interior-premium-02.jpg",
+          "assets/vehicles/sealion-6-dm-i/interior/sealion-6-dm-i-interior-premium-03.jpg",
+          "assets/vehicles/sealion-6-dm-i/interior/sealion-6-dm-i-interior-premium-04.jpg",
+          "assets/vehicles/sealion-6-dm-i/interior/sealion-6-dm-i-interior-premium-05.jpg"
+        ],
+        "spin": [
+          "assets/vehicles/sealion-6-dm-i/gallery/sealion-6-dm-i-delan-black-360-01.jpg",
+          "assets/vehicles/sealion-6-dm-i/gallery/sealion-6-dm-i-delan-black-360-02.jpg",
+          "assets/vehicles/sealion-6-dm-i/gallery/sealion-6-dm-i-delan-black-360-03.jpg",
+          "assets/vehicles/sealion-6-dm-i/gallery/sealion-6-dm-i-delan-black-360-04.jpg",
+          "assets/vehicles/sealion-6-dm-i/gallery/sealion-6-dm-i-delan-black-360-05.jpg",
+          "assets/vehicles/sealion-6-dm-i/gallery/sealion-6-dm-i-delan-black-360-06.jpg"
+        ],
+        "promotions": [
+          "assets/promotions/sealion-6-dm-i-one-pager.jpg",
+          "assets/promotions/sealion-6-dm-i-pull-up-banner.jpg"
+        ]
+      },
+      "marketingClaims": {
+        "source": "reference-materials/04-promotional-materials/sealion-6-dm-i/sealion-6-dm-i-main-kv-approved.png",
+        "ascRef": "M0176N111126B",
+        "headline": "The award-winning choice made better vs. previous Sealion 6 DM-i model",
+        "fullEvRangeKm": 100,
+        "powerPs": 217,
+        "torqueNm": 300,
+        "features": ["Super DM-i", "Plug-in hybrid", "Vehicle-to-load", "360 camera with see-through mode"],
+        "premiumOnlyOnKv": ["DC charging-ready", "DiPilot ADAS"],
+        "awardsAsPrinted": [
+          "Philippine EV Community 2025 Car of the Year",
+          "Autoindustriya.com 2024 Best Electrified Drive (Hybrid)",
+          "Autodeal.com.ph 2024 Top 1 Car"
+        ],
+        "note": "These figures are printed on the approved key visual. They are not repeated as a specification table on the November 2026 price list. The Dynamic starting price on the key visual matches the price list."
+      },
+      "variants": [
+        {
+          "slug": "dynamic",
+          "name": "Dynamic",
+          "pricePhp": 1548000,
+          "rangeKm": 1200,
+          "rangeLabel": "Combined Range",
+          "batteryKwh": 18.3,
+          "charging": [{ "type": "AC", "hours": "2.8", "window": "15%-100%" }],
+          "notes": "Price list does not list DC charging for Dynamic. The key visual assigns DC charging-ready to Premium."
+        },
+        {
+          "slug": "premium",
+          "name": "Premium",
+          "pricePhp": 1798000,
+          "rangeKm": 1200,
+          "rangeLabel": "Combined Range",
+          "batteryKwh": 18.3,
+          "charging": [
+            { "type": "DC", "hours": "0.5", "window": "30%-80%" },
+            { "type": "AC", "hours": "2.8", "window": "15%-100%" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "atto-3",
+      "name": "Atto 3",
+      "priceListPage": 2,
+      "sortOrder": 9,
+      "bodyStyle": "Subcompact SUV",
+      "seats": 5,
+      "powertrain": "Electric",
+      "specsScope": "per-variant",
+      "imageStatus": "no-standalone-photography",
+      "colors": [
+        { "name": "Ski White", "availability": "all-variants" },
+        { "name": "Boulder Grey", "availability": "all-variants" },
+        { "name": "Cosmos Black", "availability": "premium-only" }
+      ],
+      "variants": [
+        {
+          "slug": "dynamic",
+          "name": "Dynamic",
+          "pricePhp": 1638000,
+          "rangeKm": 410,
+          "rangeLabel": "NEDC",
+          "batteryKwh": 49.9,
+          "charging": [
+            { "type": "DC", "hours": "0.5", "window": "30%-80%" },
+            { "type": "AC", "hours": "7-7.5", "window": "0%-100%" }
+          ]
+        },
+        {
+          "slug": "premium",
+          "name": "Premium",
+          "pricePhp": 1848000,
+          "rangeKm": 480,
+          "rangeLabel": "NEDC",
+          "batteryKwh": 60.5,
+          "charging": [
+            { "type": "DC", "hours": "0.5", "window": "30%-80%" },
+            { "type": "AC", "hours": "8-8.5", "window": "0%-100%" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "shark-6-dmo",
+      "name": "Shark 6 DMO",
+      "priceListPage": 2,
+      "sortOrder": 10,
+      "bodyStyle": "Pickup Truck",
+      "seats": 5,
+      "powertrain": "Super DMO",
+      "specsScope": "shared-across-variants",
+      "imageStatus": "no-standalone-photography",
+      "colors": ["Deep Sea Blue", "Cosmos Black", "Aurora White"],
+      "variants": [
+        {
+          "slug": "advanced",
+          "name": "Advanced",
+          "pricePhp": 2388000,
+          "rangeKm": 800,
+          "rangeLabel": "Combined Range",
+          "batteryKwh": 29.6,
+          "charging": [
+            { "type": "DC", "hours": "0.4", "window": "30%-80%" },
+            { "type": "AC", "hours": "5.2", "window": "15%-100%" }
+          ]
+        },
+        {
+          "slug": "premium",
+          "name": "Premium",
+          "pricePhp": 2618000,
+          "rangeKm": 800,
+          "rangeLabel": "Combined Range",
+          "batteryKwh": 29.6,
+          "charging": [
+            { "type": "DC", "hours": "0.4", "window": "30%-80%" },
+            { "type": "AC", "hours": "5.2", "window": "15%-100%" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "tang-dm-i",
+      "name": "Tang DM-i",
+      "priceListPage": 2,
+      "sortOrder": 11,
+      "bodyStyle": "Mid-size SUV",
+      "seats": 7,
+      "powertrain": "Super DM-i",
+      "specsScope": "single-variant",
+      "imageStatus": "no-standalone-photography",
+      "colors": ["Moon Stone Grey", "Pearl White", "Silver Sand Black"],
+      "variants": [
+        {
+          "slug": "standard",
+          "name": null,
+          "pricePhp": 2148000,
+          "rangeKm": 1160,
+          "rangeLabel": "Combined Range",
+          "batteryKwh": 21.5,
+          "charging": [
+            { "type": "DC", "hours": "0.5", "window": "30%-80%" },
+            { "type": "AC", "hours": "3", "window": "15%-100%" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "sealion-7",
+      "name": "Sealion 7",
+      "priceListPage": 3,
+      "sortOrder": 12,
+      "bodyStyle": "Performance SUV",
+      "seats": 5,
+      "powertrain": "Electric",
+      "specsScope": "single-variant",
+      "imageStatus": "no-standalone-photography",
+      "colors": ["Shark Grey", "Deep Sea Blue", "Aurora White", "Cosmos Black"],
+      "variants": [
+        {
+          "slug": "standard",
+          "name": null,
+          "pricePhp": 2588000,
+          "rangeKm": 542,
+          "rangeLabel": "NEDC",
+          "batteryKwh": 82.6,
+          "charging": [
+            { "type": "DC", "hours": "0.5", "window": "30%-80%" },
+            { "type": "AC", "hours": "16", "window": "15%-100%" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "seal-ev",
+      "name": "Seal EV",
+      "priceListPage": 3,
+      "sortOrder": 13,
+      "bodyStyle": "Performance Sedan",
+      "seats": 5,
+      "powertrain": "Electric",
+      "specsScope": "per-variant",
+      "imageStatus": "no-standalone-photography",
+      "colors": ["Arctic Blue", "Atlantis Grey", "Cosmos Black", "Aurora White"],
+      "variants": [
+        {
+          "slug": "advanced",
+          "name": "Advanced",
+          "pricePhp": 2098000,
+          "rangeKm": 510,
+          "rangeLabel": "NEDC",
+          "batteryKwh": 61.4,
+          "charging": [
+            { "type": "DC", "hours": "0.5", "window": "30%-80%" },
+            { "type": "AC", "hours": "12", "window": "0%-100%" }
+          ]
+        },
+        {
+          "slug": "performance",
+          "name": "Performance",
+          "pricePhp": 2648000,
+          "rangeKm": 580,
+          "rangeLabel": "NEDC",
+          "batteryKwh": 82.6,
+          "charging": [
+            { "type": "DC", "hours": "0.5", "window": "30%-80%" },
+            { "type": "AC", "hours": "16", "window": "0%-100%" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "emax-9-dm-i",
+      "name": "eMAX 9 DM-i",
+      "priceListPage": 3,
+      "sortOrder": 14,
+      "bodyStyle": "Luxury MPV",
+      "seats": 7,
+      "powertrain": "Super DM-i",
+      "specsScope": "per-variant",
+      "imageStatus": "no-standalone-photography",
+      "colors": ["Deep Sea Blue", "Cosmos Black", "Aurora White"],
+      "reviewNote": "The price list labels range as NEDC and does not say combined. 95 km and 170 km are much lower than combined ranges printed for other DM-i models. Do not present these numbers as total driving range until ACMobility confirms the label.",
+      "variants": [
+        {
+          "slug": "advanced",
+          "name": "Advanced",
+          "pricePhp": 2778000,
+          "rangeKm": 95,
+          "rangeLabel": "NEDC",
+          "batteryKwh": 20.4,
+          "charging": [
+            { "type": "DC", "hours": "0.5", "window": "30%-80%" },
+            { "type": "AC", "hours": "3", "window": "15%-100%" }
+          ]
+        },
+        {
+          "slug": "premium",
+          "name": "Premium",
+          "pricePhp": 3098000,
+          "rangeKm": 170,
+          "rangeLabel": "NEDC",
+          "batteryKwh": 36.6,
+          "charging": [
+            { "type": "DC", "hours": "0.5", "window": "30%-80%" },
+            { "type": "AC", "hours": "5", "window": "15%-100%" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "tang",
+      "name": "Tang",
+      "priceListPage": 3,
+      "sortOrder": 15,
+      "bodyStyle": "Mid-size SUV",
+      "seats": 7,
+      "powertrain": "Electric",
+      "specsScope": "single-variant",
+      "imageStatus": "no-standalone-photography",
+      "colors": ["Ridge Grey", "Snowy White", "Silver Sand Black"],
+      "variants": [
+        {
+          "slug": "standard",
+          "name": null,
+          "pricePhp": 3421000,
+          "rangeKm": 530,
+          "rangeLabel": "WLTP",
+          "batteryKwh": 108.8,
+          "charging": [
+            { "type": "DC", "hours": "0.5", "window": "30%-80%" },
+            { "type": "AC", "hours": "15", "window": "0%-100%" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "seal-5-dm-i",
+      "name": "Seal 5 DM-i",
+      "priceListPage": 3,
+      "sortOrder": 16,
+      "bodyStyle": "Subcompact Sedan",
+      "seats": 5,
+      "powertrain": "Super DM-i",
+      "specsScope": "per-variant",
+      "imageStatus": "no-standalone-photography",
+      "colors": ["Arctic White", "Cosmos Black", "Harbour Grey", "Quartz Blue"],
+      "reviewNote": "This is a different row from The New Seal 5 DM-i on page 1. Same November 12, 2026 sheet, different variants, prices, battery, and range. Keep them separate until the dealer confirms whether both are on sale at Glorietta.",
+      "variants": [
+        {
+          "slug": "dynamic",
+          "name": "Dynamic",
+          "pricePhp": 958000,
+          "rangeKm": 1175,
+          "rangeLabel": "Combined Range",
+          "batteryKwh": 8.3,
+          "charging": [{ "type": "AC", "hours": "3-3.5", "window": "0%-100%" }]
+        },
+        {
+          "slug": "premium",
+          "name": "Premium",
+          "pricePhp": 1198000,
+          "rangeKm": 1240,
+          "rangeLabel": "Combined Range",
+          "batteryKwh": 18.3,
+          "charging": [{ "type": "AC", "hours": "3-3.5", "window": "0%-100%" }]
+        }
+      ]
+    }
+  ]
+}
