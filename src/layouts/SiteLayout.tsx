@@ -73,28 +73,36 @@ export function SiteLayout() {
   return (
     <AgentContext.Provider value={agent}>
       <ContactModalContext.Provider value={{ open: () => setContactOpen(true) }}>
-        <NavLink to="/" className="brand" aria-label="BYD Glorietta">
-          <img src={photos.logoWhite} alt="BYD" />
-        </NavLink>
-        <header className="nav">
-          <nav className={menuOpen ? "nav-links open" : "nav-links"}>
-            {links.map((link) => (
-              <NavLink key={link.to} to={link.to} end={link.end} onClick={() => setMenuOpen(false)}>
-                {link.label}
-              </NavLink>
-            ))}
-          </nav>
-          <button
-            className="menu-toggle"
-            type="button"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            onClick={() => setMenuOpen((value) => !value)}
-          >
-            {menuOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
-        </header>
+        {agentIdentifier ? (
+          <div className="brand" aria-label="BYD Glorietta">
+            <img src={photos.logoWhite} alt="BYD" />
+          </div>
+        ) : (
+          <NavLink to="/" className="brand" aria-label="BYD Glorietta">
+            <img src={photos.logoWhite} alt="BYD" />
+          </NavLink>
+        )}
+        {!agentIdentifier && (
+          <header className="nav">
+            <nav className={menuOpen ? "nav-links open" : "nav-links"}>
+              {links.map((link) => (
+                <NavLink key={link.to} to={link.to} end={link.end} onClick={() => setMenuOpen(false)}>
+                  {link.label}
+                </NavLink>
+              ))}
+            </nav>
+            <button
+              className="menu-toggle"
+              type="button"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              onClick={() => setMenuOpen((value) => !value)}
+            >
+              {menuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </header>
+        )}
         {waiting ? <main className="page" aria-busy="true" /> : agentState.status === "missing" ? <NotFoundPage /> : <Outlet />}
-        {!waiting && <footer className="footer">
+        {!waiting && <footer className={agentIdentifier ? "footer agent-footer-page" : "footer"}>
           <div className="footer-logo">
             <img src={photos.logoWhite} alt="BYD" />
           </div>
@@ -113,12 +121,14 @@ export function SiteLayout() {
               {copy.footer.testDrive}
             </InquiryLink>
           </div>
-          <nav>
-            <NavLink to="/car-details">Sealion 6</NavLink>
-            <InquiryLink to="/order">Test drive</InquiryLink>
-            <InquiryLink to="/contact">Contact</InquiryLink>
-            <NavLink to="/blog">{copy.blog.kicker}</NavLink>
-          </nav>
+          {!agentIdentifier && (
+            <nav>
+              <NavLink to="/car-details">Sealion 6</NavLink>
+              <InquiryLink to="/order">Test drive</InquiryLink>
+              <InquiryLink to="/contact">Contact</InquiryLink>
+              <NavLink to="/blog">{copy.blog.kicker}</NavLink>
+            </nav>
+          )}
           <small>{copy.footer.copyright}</small>
         </footer>}
         {agent && contactOpen && <AgentContactModal agent={agent} onClose={closeContact} />}

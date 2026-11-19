@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { InquiryLink } from "../components/InquiryLink";
+import { useAgent } from "../components/agent-context";
 import { CountUp } from "../components/CountUp";
 import { FrameImage } from "../components/FrameImage";
 import { Reveal } from "../components/Reveal";
@@ -13,6 +14,7 @@ import { storedImage } from "../lib/website";
 export function HomePage() {
   const { copy } = useWebsite();
   const home = copy.home;
+  const agent = useAgent();
   return (
     <main>
       <section className="hero">
@@ -39,9 +41,15 @@ export function HomePage() {
               {home.heroTitle}
             </motion.h1>
           </div>
-          <Link className="btn" to="/car-details">
-            {home.heroButton}
-          </Link>
+          {agent ? (
+            <InquiryLink className="btn" to="/order">
+              {home.testDrive}
+            </InquiryLink>
+          ) : (
+            <Link className="btn" to="/car-details">
+              {home.heroButton}
+            </Link>
+          )}
         </div>
       </section>
 
@@ -68,6 +76,7 @@ export function HomePage() {
             </article>
           </Reveal>
         </div>
+        {agent && <SectionCta label={home.testDrive} />}
       </section>
 
       <section className="experience">
@@ -116,6 +125,7 @@ export function HomePage() {
             priority
           />
         </Reveal>
+        {agent && <SectionCta label={home.testDrive} />}
       </section>
 
       <Vehicle360ScrollShowcase
@@ -123,8 +133,10 @@ export function HomePage() {
         eyebrow={home.showcaseEyebrow}
         title={home.showcaseTitle}
       />
+      {agent && <SectionCta label={home.testDrive} />}
 
       <CabinMarquee frames={cabinFrames} />
+      {agent && <SectionCta label={home.testDrive} />}
 
       <section className="tech">
         <Reveal>
@@ -141,6 +153,7 @@ export function HomePage() {
             />
           </a>
         </Reveal>
+        {agent && <SectionCta label={home.testDrive} />}
       </section>
 
       <section className="news">
@@ -152,7 +165,16 @@ export function HomePage() {
           {copy.notes.slice(0, 3).map((note) => {
             const post = posts.find((item) => item.slug === note.slug);
             if (!post) return null;
-            return (
+            return agent ? (
+              <article key={note.slug} className="news-card">
+                <FrameImage src={storedImage(note.image, post.image)} alt="" ratio={post.ratio} />
+                <p className="kicker" style={{ marginTop: 16 }}>
+                  {post.category}
+                </p>
+                <h3>{note.title}</h3>
+                <p className="muted">{note.excerpt}</p>
+              </article>
+            ) : (
             <Link key={note.slug} to={`/blog/${note.slug}`} className="news-card">
               <FrameImage src={storedImage(note.image, post.image)} alt="" ratio={post.ratio} />
               <p className="kicker" style={{ marginTop: 16 }}>
@@ -165,6 +187,7 @@ export function HomePage() {
           })}
         </div>
         </Reveal>
+        {agent && <SectionCta label={home.testDrive} />}
       </section>
 
       <section className="cta">
@@ -178,5 +201,15 @@ export function HomePage() {
         </Reveal>
       </section>
     </main>
+  );
+}
+
+function SectionCta({ label }: { label: string }) {
+  return (
+    <div className="section-cta">
+      <InquiryLink className="btn gold" to="/order">
+        {label}
+      </InquiryLink>
+    </div>
   );
 }
