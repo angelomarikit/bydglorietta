@@ -16,7 +16,6 @@ export const websiteCopy = {
     priceLine:
       "Dynamic ₱1,548,000. Premium ₱1,798,000. Colours on the sheet are Arctic White, Harbour Grey, and Delan Black. The photographs are the Delan Black car.",
     testDrive: "Request a test drive",
-    sideImage: "",
     keyVisual: "",
     showcaseEyebrow: "Sealion 6",
     showcaseTitle: "Compact SUV from ₱1,548,000",
@@ -156,7 +155,6 @@ export const websiteSections: {
       { key: "showroomName", label: "Showroom name" },
       { key: "priceLine", label: "Price paragraph", long: true },
       { key: "testDrive", label: "Test drive button" },
-      { key: "sideImage", label: "Photograph beside the price", image: true, ratio: ratios.gallery, fallback: photos.exterior[2] },
       { key: "keyVisual", label: "Key visual", image: true, ratio: ratios.kv, fallback: photos.kv },
       { key: "showcaseEyebrow", label: "Showcase line" },
       { key: "showcaseTitle", label: "Showcase title" },

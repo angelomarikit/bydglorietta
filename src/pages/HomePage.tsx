@@ -76,11 +76,19 @@ export function HomePage() {
         </Reveal>
         <div className="split">
           <Reveal y={0} x={60} delay={0.1}>
-            <FrameImage
-              src={storedImage(home.sideImage, photos.exterior[2])}
-              alt="Sealion 6 DM-i in Delan Black, side profile"
-              ratio={ratios.gallery}
-            />
+            <div className="frame side-video">
+              <video
+                src="/assets/video/sealion-6-side.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                disablePictureInPicture
+                controls={false}
+                aria-label="Sealion 6 DM-i"
+              />
+            </div>
           </Reveal>
           <Reveal delay={0.1} className="fill">
             <div className="panel">

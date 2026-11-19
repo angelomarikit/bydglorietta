@@ -297,11 +297,29 @@ p {
   background: #0d0d0f;
 }
 
+.side-video {
+  aspect-ratio: 1280 / 720;
+}
+
+.side-video video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  background: var(--studio);
+}
+
 .hero-video::-webkit-media-controls,
+.side-video video::-webkit-media-controls,
 .hero-video::-webkit-media-controls-enclosure,
+.side-video video::-webkit-media-controls-enclosure,
 .hero-video::-webkit-media-controls-panel,
+.side-video video::-webkit-media-controls-panel,
 .hero-video::-webkit-media-controls-start-playback-button,
-.hero-video::-webkit-media-controls-overlay-play-button {
+.side-video video::-webkit-media-controls-start-playback-button,
+.hero-video::-webkit-media-controls-overlay-play-button,
+.side-video video::-webkit-media-controls-overlay-play-button {
   display: none !important;
   opacity: 0;
   pointer-events: none;
