@@ -17,7 +17,6 @@ const empty: AgentInput = {
   contactNumber: "",
   email: "",
   facebookUrl: "",
-  instagramUrl: "",
   whatsappNumber: "",
   viberNumber: "",
 };
@@ -48,7 +47,6 @@ export function AgentFormPage() {
           contactNumber: agent.contactNumber,
           email: agent.email ?? "",
           facebookUrl: agent.facebookUrl ?? "",
-          instagramUrl: agent.instagramUrl ?? "",
           whatsappNumber: agent.whatsappNumber ?? "",
           viberNumber: agent.viberNumber ?? "",
         });
@@ -129,11 +127,6 @@ export function AgentFormPage() {
             Facebook Page Link
             <input value={input.facebookUrl} onChange={(event) => setField("facebookUrl", event.target.value)} />
             {errors.facebookUrl && <span className="form-error">{errors.facebookUrl}</span>}
-          </label>
-          <label>
-            Instagram Profile Link
-            <input value={input.instagramUrl} onChange={(event) => setField("instagramUrl", event.target.value)} />
-            {errors.instagramUrl && <span className="form-error">{errors.instagramUrl}</span>}
           </label>
           <label>
             WhatsApp Number

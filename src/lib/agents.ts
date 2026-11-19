@@ -23,7 +23,6 @@ export type AgentInput = {
   contactNumber: string;
   email: string;
   facebookUrl: string;
-  instagramUrl: string;
   whatsappNumber: string;
   viberNumber: string;
 };
@@ -88,9 +87,6 @@ export function validateAgent(input: AgentInput) {
   if (input.facebookUrl.trim() && !hostnameOk(input.facebookUrl, /^(www\.)?(facebook\.com|fb\.com)$/)) {
     errors.facebookUrl = "Use a full https://facebook.com or https://fb.com link.";
   }
-  if (input.instagramUrl.trim() && !hostnameOk(input.instagramUrl, /^(www\.)?instagram\.com$/)) {
-    errors.instagramUrl = "Use a full https://instagram.com link.";
-  }
   if (input.whatsappNumber.trim() && !isPhone(input.whatsappNumber)) {
     errors.whatsappNumber = "Enter a WhatsApp number.";
   }
@@ -110,7 +106,6 @@ export function contactOptions(agent: PublicAgent): ContactOption[] {
   ];
   if (agent.email) options.push({ label: "Email", href: `mailto:${agent.email}`, external: false });
   if (agent.facebookUrl) options.push({ label: "Facebook", href: agent.facebookUrl, external: true });
-  if (agent.instagramUrl) options.push({ label: "Instagram", href: agent.instagramUrl, external: true });
   if (agent.whatsappNumber) {
     options.push({ label: "WhatsApp", href: `https://wa.me/${digitsOnly(agent.whatsappNumber)}`, external: true });
   }
@@ -207,7 +202,7 @@ function payload(input: AgentInput, photoPath: string | null, pageIdentifier?: s
     p_contact_number: input.contactNumber.trim(),
     p_email: blank(input.email),
     p_facebook_url: blank(input.facebookUrl),
-    p_instagram_url: blank(input.instagramUrl),
+    p_instagram_url: null,
     p_whatsapp_number: blank(input.whatsappNumber),
     p_viber_number: blank(input.viberNumber),
     p_photo_path: photoPath,
