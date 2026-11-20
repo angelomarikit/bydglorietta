@@ -6,6 +6,7 @@ import { CountUp } from "../components/CountUp";
 import { FrameImage } from "../components/FrameImage";
 import { Reveal } from "../components/Reveal";
 import { CabinMarquee } from "../components/CabinMarquee";
+import { ModelCollection } from "../components/ModelCollection";
 import { Vehicle360ScrollShowcase } from "../components/Vehicle360ScrollShowcase";
 import { cabinFrames, photos, posts, ratios, sealion360 } from "../data/content";
 import { useWebsite } from "../components/website-context";
@@ -155,6 +156,8 @@ export function HomePage() {
         </Reveal>
         {agent && <SectionCta label={home.testDrive} />}
       </section>
+
+      <ModelCollection testDriveLabel={home.testDrive} />
 
       <section className="news">
         <Reveal>
