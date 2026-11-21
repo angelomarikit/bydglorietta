@@ -1,5 +1,10 @@
 import { supabase } from "./supabase";
 
+export type AgentTestimonial = {
+  name: string;
+  quote: string;
+};
+
 export type PublicAgent = {
   fullName: string;
   contactNumber: string;
@@ -9,6 +14,10 @@ export type PublicAgent = {
   whatsappNumber: string | null;
   viberNumber: string | null;
   photoUrl: string | null;
+  videoUrl: string | null;
+  ratingValue: number | null;
+  ratingCount: number | null;
+  testimonials: AgentTestimonial[];
   pageIdentifier: string;
 };
 
@@ -16,6 +25,7 @@ export type ManagedAgent = PublicAgent & {
   id: string;
   hidden: boolean;
   photoPath: string | null;
+  videoPath: string | null;
 };
 
 export type AgentInput = {
@@ -25,6 +35,9 @@ export type AgentInput = {
   facebookUrl: string;
   whatsappNumber: string;
   viberNumber: string;
+  ratingValue: string;
+  ratingCount: string;
+  testimonials: AgentTestimonial[];
 };
 
 type AgentRow = {
@@ -37,6 +50,10 @@ type AgentRow = {
   whatsapp_number: string | null;
   viber_number: string | null;
   photo_path: string | null;
+  video_path?: string | null;
+  rating_value?: number | string | null;
+  rating_count?: number | string | null;
+  testimonials?: AgentTestimonial[] | null;
   page_identifier: string;
   is_hidden?: boolean;
 };
@@ -91,6 +108,22 @@ export function validateAgent(input: AgentInput) {
     errors.whatsappNumber = "Enter a WhatsApp number.";
   }
   if (input.viberNumber.trim() && !isPhone(input.viberNumber)) errors.viberNumber = "Enter a Viber number.";
+  const rating = input.ratingValue.trim();
+  if (rating) {
+    const value = Number(rating);
+    if (!Number.isFinite(value) || value < 1 || value > 5) errors.ratingValue = "Enter a rating from 1 to 5.";
+  }
+  const count = input.ratingCount.trim();
+  if (count && (!/^\d+$/.test(count) || Number(count) > 1000000)) errors.ratingCount = "Enter the number of reviews.";
+  input.testimonials.forEach((item, index) => {
+    if (item.name.trim().length < 2 || item.name.trim().length > 80) {
+      errors.testimonials = "Enter each customer's name.";
+    }
+    if (item.quote.trim().length < 8 || item.quote.trim().length > 400) {
+      errors.testimonials = "Each quote needs between 8 and 400 characters.";
+    }
+    if (index > 7) errors.testimonials = "Add up to 8 testimonials.";
+  });
   return errors;
 }
 
@@ -122,6 +155,27 @@ function photoUrl(path: string | null) {
   return supabase.storage.from("agent-photos").getPublicUrl(path).data.publicUrl;
 }
 
+function videoUrl(path: string | null | undefined) {
+  if (!path || !supabase) return null;
+  return supabase.storage.from("agent-videos").getPublicUrl(path).data.publicUrl;
+}
+
+function testimonials(value: AgentRow["testimonials"]) {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((item) => {
+    if (!item || typeof item.name !== "string" || typeof item.quote !== "string") return [];
+    const name = item.name.trim();
+    const quote = item.quote.trim();
+    return name && quote ? [{ name, quote }] : [];
+  });
+}
+
+function ratingValue(value: AgentRow["rating_value"]) {
+  if (value === null || value === undefined || value === "") return null;
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
 function mapPublic(row: AgentRow): PublicAgent {
   return {
     fullName: row.full_name,
@@ -132,6 +186,10 @@ function mapPublic(row: AgentRow): PublicAgent {
     whatsappNumber: row.whatsapp_number,
     viberNumber: row.viber_number,
     photoUrl: photoUrl(row.photo_path),
+    videoUrl: videoUrl(row.video_path),
+    ratingValue: ratingValue(row.rating_value),
+    ratingCount: ratingValue(row.rating_count) === null ? null : Math.round(Number(row.rating_count)),
+    testimonials: testimonials(row.testimonials),
     pageIdentifier: row.page_identifier,
   };
 }
@@ -142,6 +200,7 @@ function mapManaged(row: AgentRow): ManagedAgent {
     id: row.id ?? "",
     hidden: Boolean(row.is_hidden),
     photoPath: row.photo_path,
+    videoPath: row.video_path ?? null,
   };
 }
 
@@ -195,8 +254,10 @@ export async function nextPageIdentifier(name: string) {
   throw new Error("A page link could not be prepared. Try a slightly different name.");
 }
 
-function payload(input: AgentInput, photoPath: string | null, pageIdentifier?: string) {
+function payload(input: AgentInput, photoPath: string | null, videoPath: string | null, pageIdentifier?: string) {
   const blank = (value: string) => value.trim() || null;
+  const rating = input.ratingValue.trim();
+  const count = input.ratingCount.trim();
   return {
     p_full_name: input.fullName.trim(),
     p_contact_number: input.contactNumber.trim(),
@@ -206,6 +267,10 @@ function payload(input: AgentInput, photoPath: string | null, pageIdentifier?: s
     p_whatsapp_number: blank(input.whatsappNumber),
     p_viber_number: blank(input.viberNumber),
     p_photo_path: photoPath,
+    p_video_path: videoPath,
+    p_rating_value: rating ? Number(rating) : null,
+    p_rating_count: count ? Number(count) : null,
+    p_testimonials: input.testimonials.map((item) => ({ name: item.name.trim(), quote: item.quote.trim() })),
     ...(pageIdentifier ? { p_page_identifier: pageIdentifier } : {}),
   };
 }
@@ -230,24 +295,44 @@ export async function removeAgentPhoto(path: string | null) {
   await supabase.storage.from("agent-photos").remove([path]);
 }
 
-export async function createAgent(input: AgentInput, photoPath: string | null) {
+export async function uploadAgentVideo(file: File) {
+  const client = requireClient();
+  if (file.type !== "video/mp4" || file.size > 40 * 1024 * 1024) {
+    throw new Error("Use an MP4 video under 40 MB.");
+  }
+  const path = `${crypto.randomUUID()}.mp4`;
+  const { error } = await client.storage.from("agent-videos").upload(path, file, {
+    contentType: "video/mp4",
+    upsert: false,
+  });
+  if (error) throw new Error("The video could not be saved. Run the latest sales agent SQL, then try again.");
+  return path;
+}
+
+export async function removeAgentVideo(path: string | null) {
+  if (!path || !supabase) return;
+  await supabase.storage.from("agent-videos").remove([path]);
+}
+
+export async function createAgent(input: AgentInput, photoPath: string | null, videoPath: string | null) {
   const client = requireClient();
   const pageIdentifier = await nextPageIdentifier(input.fullName);
-  const { data, error } = await client.rpc("create_sales_agent", payload(input, photoPath, pageIdentifier));
+  const { data, error } = await client.rpc("create_sales_agent", payload(input, photoPath, videoPath, pageIdentifier));
   if (error || !data) {
     await removeAgentPhoto(photoPath);
-    throw new Error("The agent page could not be created.");
+    await removeAgentVideo(videoPath);
+    throw new Error("The agent page could not be created. Run the latest sales agent SQL, then try again.");
   }
   return mapManaged(data as AgentRow);
 }
 
-export async function updateAgent(pageKey: string, input: AgentInput, photoPath: string | null) {
+export async function updateAgent(pageKey: string, input: AgentInput, photoPath: string | null, videoPath: string | null) {
   const client = requireClient();
   const { data, error } = await client.rpc("update_sales_agent", {
     page_key: pageKey,
-    ...payload(input, photoPath),
+    ...payload(input, photoPath, videoPath),
   });
-  if (error || !data) throw new Error("The agent details could not be saved.");
+  if (error || !data) throw new Error("The agent details could not be saved. Run the latest sales agent SQL, then try again.");
   return mapManaged(data as AgentRow);
 }
 

@@ -69,7 +69,7 @@ export const lineup: LineupModel[] = [
   {
     id: "atto-2-dm-i",
     name: "Atto 2 DM-i",
-    image: "/assets/lineup/atto-2-dmi.png",
+    image: "/assets/lineup/atto-2-dmi.jpg",
     fromPrice: "₱1,048,000",
     pricedFrom: true,
     variants: [
