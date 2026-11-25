@@ -24,14 +24,6 @@ export function Vehicle360ScrollShowcase({
   const imagesRef = useRef<Array<HTMLImageElement | null>>([]);
 
   useEffect(() => {
-    for (const frame of frames) {
-      const image = new Image();
-      image.decoding = "async";
-      image.src = frame.src;
-    }
-  }, [frames]);
-
-  useEffect(() => {
     const section = sectionRef.current;
     if (!section || frames.length === 0) return;
 
@@ -96,6 +88,7 @@ export function Vehicle360ScrollShowcase({
               width={1080}
               height={553}
               decoding="async"
+              loading={index === 0 ? "eager" : "lazy"}
               draggable={false}
               aria-hidden={index === 0 ? "false" : "true"}
               className="absolute inset-0 h-full w-full object-contain"

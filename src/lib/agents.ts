@@ -58,10 +58,10 @@ type AgentRow = {
   is_hidden?: boolean;
 };
 
+const publicSite = "https://bydglorietta.com";
+
 export function pageAddress(identifier: string) {
-  const configured = import.meta.env.VITE_SITE_URL?.replace(/\/$/, "");
-  const origin = configured || window.location.origin;
-  return `${origin}/agent/${identifier}`;
+  return `${publicSite}/agent/${identifier}`;
 }
 
 export function toPageIdentifier(name: string) {

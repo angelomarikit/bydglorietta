@@ -52,7 +52,7 @@ export function CabinMarquee({ frames }: CabinMarqueeProps) {
                   tabIndex={copy === 1 ? -1 : 0}
                   onClick={() => setOpen(index)}
                 >
-                  <img src={frame.src} alt={copy === 1 ? "" : frame.alt} draggable={false} />
+                  <img src={frame.src} alt={copy === 1 ? "" : frame.alt} draggable={false} loading="lazy" decoding="async" />
                 </button>
               ))}
             </div>

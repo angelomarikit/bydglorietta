@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { InquiryLink } from "../components/InquiryLink";
 import { useAgent } from "../components/agent-context";
@@ -20,17 +21,11 @@ export function HomePage() {
   return (
     <main>
       <section className="hero">
-        <video
+        <ManagedVideo
           className="hero-video"
           src="/assets/video/sealion-6-hero.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          disablePictureInPicture
-          controls={false}
-          aria-label="Sealion 6 DM-i"
+          poster={photos.hero}
+          label="Sealion 6 DM-i"
         />
         <div className="hero-copy">
           <div>
@@ -88,16 +83,10 @@ export function HomePage() {
         <div className="split">
           <Reveal y={0} x={60} delay={0.1}>
             <div className="frame side-video">
-              <video
+              <ManagedVideo
                 src="/assets/video/sealion-6-side.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                disablePictureInPicture
-                controls={false}
-                aria-label="Sealion 6 DM-i"
+                label="Sealion 6 DM-i"
+                lazy
               />
             </div>
           </Reveal>
@@ -209,6 +198,56 @@ export function HomePage() {
 
       <AgentReviews />
     </main>
+  );
+}
+
+function ManagedVideo({
+  src,
+  poster,
+  label,
+  className,
+  lazy = false,
+}: {
+  src: string;
+  poster?: string;
+  label: string;
+  className?: string;
+  lazy?: boolean;
+}) {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!video.src) video.src = src;
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { rootMargin: "240px" },
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [src]);
+
+  return (
+    <video
+      ref={ref}
+      className={className}
+      src={lazy ? undefined : src}
+      poster={poster}
+      muted
+      loop
+      playsInline
+      preload={lazy ? "none" : "metadata"}
+      disablePictureInPicture
+      controls={false}
+      aria-label={label}
+    />
   );
 }
 

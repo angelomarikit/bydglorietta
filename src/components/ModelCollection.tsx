@@ -39,7 +39,7 @@ export function ModelCollection({ testDriveLabel }: ModelCollectionProps) {
         {lineup.map((model) => (
           <button key={model.id} type="button" className="range-card" onClick={() => setSelected(model)}>
             <span className="range-photo">
-              <img src={model.image} alt="" />
+              <img src={model.image} alt="" loading="lazy" decoding="async" />
             </span>
             <span className="range-copy">
               <strong>{model.name}</strong>
