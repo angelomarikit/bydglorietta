@@ -209,6 +209,29 @@ function requireClient() {
   return supabase;
 }
 
+export type DirectoryAgent = {
+  fullName: string;
+  photoUrl: string | null;
+  pageIdentifier: string;
+};
+
+export async function listPublicAgents() {
+  const client = supabase;
+  if (!client) return [];
+  const { data, error } = await client.rpc("list_public_agents");
+  if (error || data == null) return [];
+  const rows = (typeof data === "string" ? JSON.parse(data) : data) as AgentRow[];
+  if (!Array.isArray(rows)) return [];
+  return rows.flatMap((row): DirectoryAgent[] => {
+    if (!row || typeof row.full_name !== "string" || typeof row.page_identifier !== "string") return [];
+    return [{
+      fullName: row.full_name,
+      photoUrl: photoUrl(row.photo_path ?? null),
+      pageIdentifier: row.page_identifier,
+    }];
+  });
+}
+
 export async function getPublicAgent(pageKey: string) {
   const client = supabase;
   if (!client) return null;

@@ -6,6 +6,7 @@ import { useAgent } from "../components/agent-context";
 import { CountUp } from "../components/CountUp";
 import { FrameImage } from "../components/FrameImage";
 import { Reveal } from "../components/Reveal";
+import { AgentDirectory } from "../components/AgentDirectory";
 import { CabinMarquee } from "../components/CabinMarquee";
 import { AgentReviews, AgentVideo } from "../components/AgentLanding";
 import { ModelCollection } from "../components/ModelCollection";
@@ -150,6 +151,8 @@ export function HomePage() {
       </section>
 
       <ModelCollection testDriveLabel={home.testDrive} />
+
+      {!agent && <AgentDirectory />}
 
       <section className="news">
         <Reveal>
