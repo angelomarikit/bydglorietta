@@ -91,6 +91,27 @@ export const websiteCopy = {
     experienceName: "",
     experiencePhone: "",
   },
+  service: {
+    kicker: "BYD Glorietta",
+    title: "Service Center",
+    intro: "Choose a service center below. Each branch shows its location, phone number, and email once those details are saved.",
+    center1Name: "",
+    center1Branch: "",
+    center1Phone: "",
+    center1Email: "",
+    center2Name: "",
+    center2Branch: "",
+    center2Phone: "",
+    center2Email: "",
+    center3Name: "",
+    center3Branch: "",
+    center3Phone: "",
+    center3Email: "",
+    center4Name: "",
+    center4Branch: "",
+    center4Phone: "",
+    center4Email: "",
+  },
   drive: {
     kicker: "Test drive",
     title: "Request a drive",
@@ -131,13 +152,14 @@ export type WebsiteCopy = {
   home: { [K in keyof typeof websiteCopy.home]: string };
   car: { [K in keyof typeof websiteCopy.car]: string };
   contact: { [K in keyof typeof websiteCopy.contact]: string };
+  service: { [K in keyof typeof websiteCopy.service]: string };
   drive: { [K in keyof typeof websiteCopy.drive]: string };
   blog: { [K in keyof typeof websiteCopy.blog]: string };
   footer: { [K in keyof typeof websiteCopy.footer]: string };
   notes: WebsiteNote[];
 };
 
-export type WebsiteSectionKey = "home" | "car" | "contact" | "drive" | "blog" | "footer";
+export type WebsiteSectionKey = "home" | "car" | "contact" | "service" | "drive" | "blog" | "footer";
 
 export const websiteSections: {
   key: WebsiteSectionKey;
@@ -242,6 +264,32 @@ export const websiteSections: {
       { key: "experienceTitle", label: "Customer Xperience Officer" },
       { key: "experienceName", label: "Name" },
       { key: "experiencePhone", label: "Contact number" },
+    ],
+  },
+  {
+    key: "service",
+    label: "Service Center",
+    detail: "Four service centers. A center appears on the page when it has a name, branch, number, or email.",
+    fields: [
+      { key: "kicker", label: "Line" },
+      { key: "title", label: "Heading" },
+      { key: "intro", label: "Introduction", long: true },
+      { key: "center1Name", label: "Service Center" },
+      { key: "center1Branch", label: "Branch" },
+      { key: "center1Phone", label: "Contact number" },
+      { key: "center1Email", label: "Email" },
+      { key: "center2Name", label: "Service Center" },
+      { key: "center2Branch", label: "Branch" },
+      { key: "center2Phone", label: "Contact number" },
+      { key: "center2Email", label: "Email" },
+      { key: "center3Name", label: "Service Center" },
+      { key: "center3Branch", label: "Branch" },
+      { key: "center3Phone", label: "Contact number" },
+      { key: "center3Email", label: "Email" },
+      { key: "center4Name", label: "Service Center" },
+      { key: "center4Branch", label: "Branch" },
+      { key: "center4Phone", label: "Contact number" },
+      { key: "center4Email", label: "Email" },
     ],
   },
   {

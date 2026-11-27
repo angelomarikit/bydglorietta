@@ -38,6 +38,7 @@ export function mergeWebsite(saved: unknown): WebsiteCopy {
     home: mergeStrings(websiteCopy.home, record?.home),
     car: mergeStrings(websiteCopy.car, record?.car),
     contact: mergeStrings(websiteCopy.contact, record?.contact),
+    service: mergeStrings(websiteCopy.service, record?.service),
     drive: mergeStrings(websiteCopy.drive, record?.drive),
     blog: mergeStrings(websiteCopy.blog, record?.blog),
     footer: mergeStrings(websiteCopy.footer, record?.footer),
