@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes, useParams } from "react-router-dom";
 import { WebsiteProvider } from "./components/website-context";
 import { SiteLayout } from "./layouts/SiteLayout";
+import { AboutPage } from "./pages/AboutPage";
 import { BlogPage } from "./pages/BlogPage";
 import { CarPage } from "./pages/CarPage";
 import { ContactPage } from "./pages/ContactPage";
@@ -36,6 +37,7 @@ export function App() {
             <Route path="blog" element={<BlogPage />} />
             <Route path="blog/:slug" element={<PostPage />} />
             <Route path="contact" element={<ContactPage />} />
+            <Route path="about" element={<AboutPage />} />
             <Route path="service-center" element={<ServicePage />} />
             <Route path="vehicle-registration" element={<RegistrationPage />} />
             <Route path="*" element={<NotFoundPage />} />

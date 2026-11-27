@@ -112,6 +112,34 @@ export const websiteCopy = {
     center4Phone: "",
     center4Email: "",
   },
+  registration: {
+    kicker: "BYD Glorietta",
+    title: "Vehicle Registration Inquiry",
+    intro: "Share the vehicle and the customer so the showroom can follow up on the registration.",
+    vehicleLabel: "Vehicle model",
+    csLabel: "CS no.",
+    customerLabel: "Customer name",
+    emailLabel: "Email address",
+    consultantLabel: "Sales Consultant",
+    send: "Send",
+    sentTitle: "Inquiry received",
+    sentBody: "Your details are kept on this page only.",
+  },
+  about: {
+    kicker: "BYD Glorietta",
+    title: "About Us",
+    description: "",
+    showroomPhoto: "",
+    ceoPhoto: "",
+    ceoName: "",
+    ceoPosition: "",
+    directorPhoto: "",
+    directorName: "",
+    directorPosition: "",
+    operationsPhoto: "",
+    operationsName: "",
+    operationsPosition: "",
+  },
   drive: {
     kicker: "Test drive",
     title: "Request a drive",
@@ -153,13 +181,15 @@ export type WebsiteCopy = {
   car: { [K in keyof typeof websiteCopy.car]: string };
   contact: { [K in keyof typeof websiteCopy.contact]: string };
   service: { [K in keyof typeof websiteCopy.service]: string };
+  registration: { [K in keyof typeof websiteCopy.registration]: string };
+  about: { [K in keyof typeof websiteCopy.about]: string };
   drive: { [K in keyof typeof websiteCopy.drive]: string };
   blog: { [K in keyof typeof websiteCopy.blog]: string };
   footer: { [K in keyof typeof websiteCopy.footer]: string };
   notes: WebsiteNote[];
 };
 
-export type WebsiteSectionKey = "home" | "car" | "contact" | "service" | "drive" | "blog" | "footer";
+export type WebsiteSectionKey = "home" | "car" | "contact" | "service" | "registration" | "about" | "drive" | "blog" | "footer";
 
 export const websiteSections: {
   key: WebsiteSectionKey;
@@ -290,6 +320,44 @@ export const websiteSections: {
       { key: "center4Branch", label: "Branch" },
       { key: "center4Phone", label: "Contact number" },
       { key: "center4Email", label: "Email" },
+    ],
+  },
+  {
+    key: "registration",
+    label: "Vehicle Registration Inquiry",
+    detail: "The inquiry form. Change a label here and the field name changes on the page.",
+    fields: [
+      { key: "kicker", label: "Line" },
+      { key: "title", label: "Heading" },
+      { key: "intro", label: "Introduction", long: true },
+      { key: "vehicleLabel", label: "Vehicle model" },
+      { key: "csLabel", label: "CS no." },
+      { key: "customerLabel", label: "Customer name" },
+      { key: "emailLabel", label: "Email address" },
+      { key: "consultantLabel", label: "Sales Consultant" },
+      { key: "send", label: "Send button" },
+      { key: "sentTitle", label: "Sent heading" },
+      { key: "sentBody", label: "Sent note", long: true },
+    ],
+  },
+  {
+    key: "about",
+    label: "About Us",
+    detail: "Showroom photograph and the three leaders. A person appears when a photo, name, or position is saved.",
+    fields: [
+      { key: "kicker", label: "Line" },
+      { key: "title", label: "Heading" },
+      { key: "description", label: "Description", long: true },
+      { key: "showroomPhoto", label: "Photo of showroom", image: true, ratio: ratios.gallery },
+      { key: "ceoPhoto", label: "Photo of CEO", image: true, ratio: "3 / 4" },
+      { key: "ceoName", label: "Name" },
+      { key: "ceoPosition", label: "Position" },
+      { key: "directorPhoto", label: "Photo of Brand Director", image: true, ratio: "3 / 4" },
+      { key: "directorName", label: "Name" },
+      { key: "directorPosition", label: "Position" },
+      { key: "operationsPhoto", label: "Photo of Operations Head", image: true, ratio: "3 / 4" },
+      { key: "operationsName", label: "Name" },
+      { key: "operationsPosition", label: "Position" },
     ],
   },
   {

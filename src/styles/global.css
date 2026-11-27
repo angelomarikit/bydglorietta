@@ -1392,23 +1392,92 @@ p {
   color: var(--ink);
 }
 
+.inquiry-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.inquiry-page .page-title {
+  max-width: 14ch;
+}
+
+.about-description {
+  max-width: 34em;
+  margin: 0 0 40px;
+  font-size: clamp(22px, 2.6vw, 34px);
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+.about-showroom {
+  margin-top: 8px;
+}
+
+.about-team {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.about-person {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 16px 16px 24px;
+  border-radius: 28px;
+  background: var(--light);
+}
+
+.about-person img,
+.about-fallback {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 20px;
+  object-fit: cover;
+  object-position: center top;
+  background: white;
+}
+
+.about-fallback {
+  display: grid;
+  place-items: center;
+  font-family: var(--display);
+  font-size: 64px;
+  font-weight: 500;
+}
+
+.about-person h2 {
+  margin: 10px 8px 0;
+  font-size: clamp(26px, 2vw, 34px);
+}
+
+.about-person p {
+  margin: 0 8px;
+  color: var(--muted);
+  font-size: 16px;
+}
+
 .inquiry-lead {
-  max-width: 28em;
-  margin: 0 0 32px;
+  max-width: 22em;
+  margin: 0 0 40px;
   color: var(--muted);
   font-size: clamp(20px, 2.4vw, 28px);
   font-weight: 300;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .inquiry-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px 16px;
-  width: min(100%, 820px);
-  padding: 32px;
-  border-radius: 28px;
+  gap: 28px 24px;
+  width: min(100%, 1080px);
+  padding: 48px 44px;
+  border-radius: 32px;
   background: var(--light);
+  text-align: left;
 }
 
 .inquiry-form label {
@@ -1428,20 +1497,24 @@ p {
 }
 
 .inquiry-form input {
+  width: 100%;
+  min-height: 60px;
   border: 0;
-  border-radius: 16px;
+  border-radius: 18px;
   background: white;
-  padding: 16px 18px;
+  padding: 18px 20px;
   color: var(--ink);
-  font-size: 16px;
+  font-size: 18px;
   letter-spacing: 0;
   text-transform: none;
 }
 
 .inquiry-form .btn {
   justify-self: start;
-  min-width: 168px;
-  margin-top: 6px;
+  min-width: 180px;
+  min-height: 56px;
+  margin-top: 8px;
+  padding: 16px 32px;
 }
 
 .post-body {
@@ -1505,6 +1578,11 @@ p {
     justify-content: center;
   }
 
+  .inquiry-form {
+    padding: 24px 18px;
+    gap: 20px;
+  }
+
   .stat-grid,
   .split,
   .two,
@@ -1516,6 +1594,7 @@ p {
   .contact-people,
   .service-grid,
   .inquiry-form,
+  .about-team,
   .hero-copy,
   .cta-card,
   .footer-row {

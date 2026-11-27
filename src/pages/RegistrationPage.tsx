@@ -1,6 +1,9 @@
 import { FormEvent, useState } from "react";
+import { useWebsite } from "../components/website-context";
 
 export function RegistrationPage() {
+  const { copy } = useWebsite();
+  const inquiry = copy.registration;
   const [sent, setSent] = useState(false);
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -9,40 +12,38 @@ export function RegistrationPage() {
   }
 
   return (
-    <main className="page">
-      <p className="kicker">BYD Glorietta</p>
-      <h1 className="page-title">Vehicle Registration Inquiry</h1>
-      <p className="inquiry-lead">
-        Share the vehicle and the customer so the showroom can follow up on the registration.
-      </p>
+    <main className="page inquiry-page">
+      <p className="kicker">{inquiry.kicker}</p>
+      <h1 className="page-title">{inquiry.title}</h1>
+      {inquiry.intro.trim() && <p className="inquiry-lead">{inquiry.intro}</p>}
       {sent ? (
         <div className="success">
-          <h2 className="display" style={{ fontSize: 40 }}>Inquiry received</h2>
-          <p style={{ marginTop: 12 }}>Your details are kept on this page only.</p>
+          <h2 className="display" style={{ fontSize: 40 }}>{inquiry.sentTitle}</h2>
+          <p style={{ marginTop: 12 }}>{inquiry.sentBody}</p>
         </div>
       ) : (
         <form className="inquiry-form" onSubmit={submit}>
           <label>
-            Vehicle model
+            {inquiry.vehicleLabel}
             <input name="vehicle" required autoComplete="off" />
           </label>
           <label>
-            CS no.
+            {inquiry.csLabel}
             <input name="cs" required autoComplete="off" />
           </label>
           <label>
-            Customer name
+            {inquiry.customerLabel}
             <input name="customer" required autoComplete="name" />
           </label>
           <label>
-            Email address
+            {inquiry.emailLabel}
             <input name="email" type="email" required autoComplete="email" />
           </label>
           <label className="wide">
-            Sales Consultant
+            {inquiry.consultantLabel}
             <input name="consultant" required autoComplete="name" />
           </label>
-          <button className="btn" type="submit">Send</button>
+          <button className="btn" type="submit">{inquiry.send}</button>
         </form>
       )}
     </main>

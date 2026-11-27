@@ -14,8 +14,9 @@ const links = [
   { to: "/car-details", label: "Car details", end: false },
   { to: "/order", label: "Test drive", end: false },
   { to: "/blog", label: "Blog", end: false },
+  { to: "/about", label: "", end: false },
   { to: "/service-center", label: "Service Center", end: false },
-  { to: "/vehicle-registration", label: "Vehicle Registration Inquiry", end: false },
+  { to: "/vehicle-registration", label: "", end: false },
   { to: "/contact", label: "Contact Us", end: false },
 ];
 
@@ -89,7 +90,7 @@ export function SiteLayout() {
             <nav className={menuOpen ? "nav-links open" : "nav-links"}>
               {links.map((link) => (
                 <NavLink key={link.to} to={link.to} end={link.end} onClick={() => setMenuOpen(false)}>
-                  {link.label}
+                  {link.to === "/vehicle-registration" ? copy.registration.title : link.to === "/about" ? copy.about.title : link.label}
                 </NavLink>
               ))}
             </nav>
@@ -124,8 +125,9 @@ export function SiteLayout() {
             <nav>
               <NavLink to="/car-details">Sealion 6</NavLink>
               <InquiryLink to="/order">Test drive</InquiryLink>
+              <NavLink to="/about">{copy.about.title}</NavLink>
               <NavLink to="/service-center">Service Center</NavLink>
-              <NavLink to="/vehicle-registration">Vehicle Registration Inquiry</NavLink>
+              <NavLink to="/vehicle-registration">{copy.registration.title}</NavLink>
               <InquiryLink to="/contact">Contact Us</InquiryLink>
               <NavLink to="/blog">{copy.blog.kicker}</NavLink>
             </nav>
