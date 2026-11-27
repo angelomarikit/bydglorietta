@@ -129,13 +129,13 @@ export function AgentReviews() {
                 onClick={() => setOpen(index)}
               >
                 {stars !== null && <Stars value={stars} idPrefix={`${index}`} />}
-                <figure>
-                  {item.photoUrl ? (
+                {item.photoUrl && (
+                  <figure>
                     <img src={item.photoUrl} alt="" loading="lazy" decoding="async" />
-                  ) : (
-                    <span className="review-fallback">{item.quote}</span>
-                  )}
-                </figure>
+                  </figure>
+                )}
+                <p>{item.quote}</p>
+                <footer>{item.name}</footer>
               </button>
             ))}
           </div>
