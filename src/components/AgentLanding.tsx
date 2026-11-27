@@ -1,5 +1,5 @@
 import { useReducedMotion } from "motion/react";
-import { ImagePlus, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, ImagePlus, X } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { addAgentTestimonial, uploadSalesPhoto, type AgentTestimonial } from "../lib/agents";
 import { useAgent } from "./agent-context";
@@ -103,12 +103,14 @@ export function AgentReviews() {
   const [preview, setPreview] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const [slide, setSlide] = useState(0);
   const pageKey = agent?.pageIdentifier;
 
   useEffect(() => {
     setAdded([]);
     setOpen(null);
     setWriting(false);
+    setSlide(0);
     setPhoto(null);
     setPreview((current) => {
       if (current) URL.revokeObjectURL(current);
@@ -143,8 +145,10 @@ export function AgentReviews() {
 
   if (!agent) return null;
 
-  const items = [...agent.testimonials, ...added];
+  const items = [...agent.testimonials, ...added].slice(0, 10);
   const stars = agent.ratingValue;
+  const index = items.length === 0 ? 0 : slide % items.length;
+  const current = items[index];
   const selected = open === null ? null : items[open];
 
   async function submitFeedback(event: FormEvent) {
@@ -190,29 +194,40 @@ export function AgentReviews() {
           <span aria-hidden="true">→</span>
         </button>
       </div>
-      {items.length > 0 && (
-        <div className="review-viewport review-static">
-          <div className="review-track">
-            <div className="review-set">
-              {items.map((item, index) => (
-                <button
-                  className="review-card"
-                  type="button"
-                  key={`${item.name}-${index}`}
-                  onClick={() => setOpen(index)}
-                >
-                  {stars !== null && <Stars value={stars} idPrefix={`${index}`} />}
-                  {item.photoUrl && (
-                    <figure>
-                      <img src={item.photoUrl} alt="" loading="lazy" decoding="async" />
-                    </figure>
-                  )}
-                  <p>{item.quote}</p>
-                  <footer>{item.name}</footer>
-                </button>
-              ))}
-            </div>
-          </div>
+      {current && (
+        <div className="review-slider">
+          <button
+            className="review-arrow"
+            type="button"
+            aria-label="Previous testimonial"
+            disabled={items.length < 2}
+            onClick={() => setSlide((value) => (value - 1 + items.length) % items.length)}
+          >
+            <ChevronLeft />
+          </button>
+          <button
+            className="review-card"
+            type="button"
+            onClick={() => setOpen(index)}
+          >
+            {stars !== null && <Stars value={stars} idPrefix={`${index}`} />}
+            {current.photoUrl && (
+              <figure>
+                <img src={current.photoUrl} alt="" loading="lazy" decoding="async" />
+              </figure>
+            )}
+            <p>{current.quote}</p>
+            <footer>{current.name}</footer>
+          </button>
+          <button
+            className="review-arrow"
+            type="button"
+            aria-label="Next testimonial"
+            disabled={items.length < 2}
+            onClick={() => setSlide((value) => (value + 1) % items.length)}
+          >
+            <ChevronRight />
+          </button>
         </div>
       )}
       {selected && (

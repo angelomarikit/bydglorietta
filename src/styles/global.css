@@ -1748,23 +1748,35 @@ p {
   font-size: 12px;
 }
 
-.review-viewport {
-  overflow: hidden;
-}
-
-.review-track {
+.review-slider {
   display: flex;
-  width: max-content;
-}
-
-.review-static.review-viewport {
-  overflow-x: auto;
-}
-
-.review-set {
-  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   gap: 18px;
   padding: 0 var(--pad) 8px;
+}
+
+.review-arrow {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 52px;
+  height: 52px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: white;
+  cursor: pointer;
+}
+
+.review-arrow:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+
+.review-arrow svg {
+  width: 22px;
+  height: 22px;
 }
 
 .review-card {
