@@ -14,7 +14,7 @@ const links = [
   { to: "/car-details", label: "Car details", end: false },
   { to: "/order", label: "Test drive", end: false },
   { to: "/blog", label: "Blog", end: false },
-  { to: "/service-center", label: "Service Centers", end: false },
+  { to: "/service-center", label: "Service Center", end: false },
   { to: "/contact", label: "Contact Us", end: false },
 ];
 
@@ -123,7 +123,7 @@ export function SiteLayout() {
             <nav>
               <NavLink to="/car-details">Sealion 6</NavLink>
               <InquiryLink to="/order">Test drive</InquiryLink>
-              <NavLink to="/service-center">Service Centers</NavLink>
+              <NavLink to="/service-center">Service Center</NavLink>
               <InquiryLink to="/contact">Contact Us</InquiryLink>
               <NavLink to="/blog">{copy.blog.kicker}</NavLink>
             </nav>

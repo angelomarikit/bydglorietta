@@ -93,7 +93,7 @@ export const websiteCopy = {
   },
   service: {
     kicker: "BYD Glorietta",
-    title: "Service Centers",
+    title: "Service Center",
     intro: "Choose a service center below. Each branch shows its location, phone number, and email once those details are saved.",
     center1Name: "",
     center1Branch: "",
@@ -268,7 +268,7 @@ export const websiteSections: {
   },
   {
     key: "service",
-    label: "Service Centers",
+    label: "Service Center",
     detail: "Four service centers. A center appears on the page when it has a name, branch, number, or email.",
     fields: [
       { key: "kicker", label: "Line" },
