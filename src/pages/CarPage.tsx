@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { FrameImage } from "../components/FrameImage";
+import { InquiryLink } from "../components/InquiryLink";
 import { useWebsite } from "../components/website-context";
 import { photos, ratios } from "../data/content";
 import { storedImage } from "../lib/website";
@@ -81,6 +82,12 @@ export function CarPage() {
         <Link className="btn gold" to="/order" style={{ marginTop: 20 }}>
           {car.testDrive}
         </Link>
+      </div>
+      <div className="quote-cta">
+        <p>{car.quoteLine}</p>
+        <InquiryLink className="btn gold" to="/contact">
+          {car.quoteButton}
+        </InquiryLink>
       </div>
     </main>
   );
