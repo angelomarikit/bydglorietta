@@ -185,8 +185,9 @@ export function AgentReviews() {
     <section className="review-gallery" aria-label="Customer rating">
       <div className="review-heading">
         <h2>Customer testimonials</h2>
-        <button className="btn" type="button" onClick={() => { setError(""); setWriting(true); }}>
+        <button className="btn gold review-feedback" type="button" onClick={() => { setError(""); setWriting(true); }}>
           Leave feedback
+          <span aria-hidden="true">→</span>
         </button>
       </div>
       {items.length > 0 && (

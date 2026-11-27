@@ -40,7 +40,7 @@ export function HomePage() {
             </motion.h1>
           </div>
           {agent ? (
-            <InquiryLink className="btn" to="/order">
+            <InquiryLink className="btn gold" to="/order">
               {home.testDrive}
             </InquiryLink>
           ) : (
