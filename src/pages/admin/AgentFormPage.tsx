@@ -9,6 +9,7 @@ import {
   updateAgent,
   uploadAgentPhoto,
   uploadAgentVideo,
+  uploadSalesPhoto,
   validateAgent,
   type AgentInput,
   type ManagedAgent,
@@ -36,6 +37,10 @@ export function AgentFormPage() {
   const [videoPreview, setVideoPreview] = useState<string | null>(null);
   const [videoRemoved, setVideoRemoved] = useState(false);
   const [existingPhoto, setExistingPhoto] = useState<string | null>(null);
+  const [keptSales, setKeptSales] = useState<{ path: string; url: string }[]>([]);
+  const [salesFiles, setSalesFiles] = useState<File[]>([]);
+  const [salesPreviews, setSalesPreviews] = useState<string[]>([]);
+  const [salesInputKey, setSalesInputKey] = useState(0);
   const [errors, setErrors] = useState<Partial<Record<keyof AgentInput, string>>>({});
   const [formError, setFormError] = useState("");
   const [pending, setPending] = useState(false);
@@ -63,6 +68,10 @@ export function AgentFormPage() {
           testimonials: agent.testimonials,
         });
         setExistingPhoto(agent.photoUrl);
+        setKeptSales(agent.salesPhotoPaths.flatMap((path, index) => {
+          const url = agent.salesPhotoUrls[index];
+          return url ? [{ path, url }] : [];
+        }));
         setSaved(agent);
       }
       setLoading(false);
@@ -81,6 +90,31 @@ export function AgentFormPage() {
     setVideoPreview(url);
     return () => URL.revokeObjectURL(url);
   }, [video]);
+
+  useEffect(() => {
+    const urls = salesFiles.map((file) => URL.createObjectURL(file));
+    setSalesPreviews(urls);
+    return () => urls.forEach((url) => URL.revokeObjectURL(url));
+  }, [salesFiles]);
+
+  function addSalesFiles(list: FileList | null) {
+    const incoming = [...(list ?? [])];
+    if (incoming.length === 0) return;
+    const invalid = incoming.some((file) => !["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size > 2 * 1024 * 1024);
+    if (invalid) {
+      setFormError("Use JPG, PNG, or WebP photos under 2 MB. 1200 × 800 pixels keeps every card the same size.");
+      setSalesInputKey((key) => key + 1);
+      return;
+    }
+    if (keptSales.length + salesFiles.length + incoming.length > 12) {
+      setFormError("Add up to 12 sales photos.");
+      setSalesInputKey((key) => key + 1);
+      return;
+    }
+    setFormError("");
+    setSalesFiles((current) => [...current, ...incoming]);
+    setSalesInputKey((key) => key + 1);
+  }
 
   function setField(key: Exclude<keyof AgentInput, "testimonials">, value: string) {
     setInput((current) => ({ ...current, [key]: value }));
@@ -111,29 +145,40 @@ export function AgentFormPage() {
     setPending(true);
     let uploadedPhoto: string | null = null;
     let uploadedVideo: string | null = null;
+    const uploadedSales: string[] = [];
     try {
       if (photo) uploadedPhoto = await uploadAgentPhoto(photo);
       if (video) uploadedVideo = await uploadAgentVideo(video);
+      for (const file of salesFiles) uploadedSales.push(await uploadSalesPhoto(file));
       const photoPath = uploadedPhoto ?? saved?.photoPath ?? null;
       const videoPath = video && uploadedVideo
         ? uploadedVideo
         : videoRemoved
           ? null
           : saved?.videoPath ?? null;
+      const salesPaths = [...keptSales.map((item) => item.path), ...uploadedSales];
       const agent = editing && pageIdentifier
-        ? await updateAgent(pageIdentifier, ready, photoPath, videoPath)
-        : await createAgent(ready, uploadedPhoto, uploadedVideo);
+        ? await updateAgent(pageIdentifier, ready, photoPath, videoPath, salesPaths)
+        : await createAgent(ready, uploadedPhoto, uploadedVideo, salesPaths);
       if (uploadedPhoto && saved?.photoPath && uploadedPhoto !== saved.photoPath) await removeAgentPhoto(saved.photoPath);
       if (saved?.videoPath && saved.videoPath !== agent.videoPath) await removeAgentVideo(saved.videoPath);
+      const removedSales = (saved?.salesPhotoPaths ?? []).filter((path) => !salesPaths.includes(path));
+      await Promise.all(removedSales.map((path) => removeAgentPhoto(path)));
       setSaved(agent);
       setExistingPhoto(agent.photoUrl);
+      setKeptSales(agent.salesPhotoPaths.flatMap((path, index) => {
+        const url = agent.salesPhotoUrls[index];
+        return url ? [{ path, url }] : [];
+      }));
       setPhoto(null);
       setVideo(null);
+      setSalesFiles([]);
       setVideoRemoved(false);
       setVideoInputKey((key) => key + 1);
     } catch (reason) {
       if (uploadedPhoto) await removeAgentPhoto(uploadedPhoto);
       if (uploadedVideo) await removeAgentVideo(uploadedVideo);
+      await Promise.all(uploadedSales.map((path) => removeAgentPhoto(path)));
       setFormError(reason instanceof Error ? reason.message : "The agent page could not be saved.");
     } finally {
       setPending(false);
@@ -197,6 +242,48 @@ export function AgentFormPage() {
             />
           </label>
           {existingPhoto && !photo && <img className="agent-photo" src={existingPhoto} alt="" />}
+          <label>
+            Proof of sales
+            <input
+              key={salesInputKey}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              multiple
+              onChange={(event) => addSalesFiles(event.target.files)}
+            />
+          </label>
+          <p className="page-link-note">
+            Upload the photos here. They are stored in your cloud, not pasted as links.
+            Use 1200 × 800 pixels (3:2), JPG, PNG, or WebP, under 2 MB each. Up to 12 photos. That size keeps every card the same.
+          </p>
+          {(keptSales.length > 0 || salesPreviews.length > 0) && (
+            <div className="sales-editor">
+              {keptSales.map((item) => (
+                <figure key={item.path}>
+                  <img src={item.url} alt="" />
+                  <button
+                    className="btn quiet"
+                    type="button"
+                    onClick={() => setKeptSales((current) => current.filter((photoItem) => photoItem.path !== item.path))}
+                  >
+                    Remove
+                  </button>
+                </figure>
+              ))}
+              {salesPreviews.map((src, index) => (
+                <figure key={src}>
+                  <img src={src} alt="" />
+                  <button
+                    className="btn quiet"
+                    type="button"
+                    onClick={() => setSalesFiles((current) => current.filter((_, fileIndex) => fileIndex !== index))}
+                  >
+                    Remove
+                  </button>
+                </figure>
+              ))}
+            </div>
+          )}
           <label>
             Personal video
             <input

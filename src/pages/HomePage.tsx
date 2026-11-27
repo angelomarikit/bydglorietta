@@ -8,7 +8,7 @@ import { FrameImage } from "../components/FrameImage";
 import { Reveal } from "../components/Reveal";
 import { AgentDirectory } from "../components/AgentDirectory";
 import { CabinMarquee } from "../components/CabinMarquee";
-import { AgentReviews, AgentVideo } from "../components/AgentLanding";
+import { AgentReviews, AgentSales, AgentVideo } from "../components/AgentLanding";
 import { ModelCollection } from "../components/ModelCollection";
 import { Vehicle360ScrollShowcase } from "../components/Vehicle360ScrollShowcase";
 import { cabinFrames, photos, posts, ratios, sealion360 } from "../data/content";
@@ -76,6 +76,8 @@ export function HomePage() {
         </div>
         {agent && <SectionCta label={home.testDrive} />}
       </section>
+
+      <AgentSales />
 
       <section className="experience">
         <Reveal>

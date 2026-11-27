@@ -18,6 +18,7 @@ export type PublicAgent = {
   ratingValue: number | null;
   ratingCount: number | null;
   testimonials: AgentTestimonial[];
+  salesPhotoUrls: string[];
   pageIdentifier: string;
 };
 
@@ -26,6 +27,7 @@ export type ManagedAgent = PublicAgent & {
   hidden: boolean;
   photoPath: string | null;
   videoPath: string | null;
+  salesPhotoPaths: string[];
 };
 
 export type AgentInput = {
@@ -54,6 +56,7 @@ type AgentRow = {
   rating_value?: number | string | null;
   rating_count?: number | string | null;
   testimonials?: AgentTestimonial[] | null;
+  sales_photos?: unknown;
   page_identifier: string;
   is_hidden?: boolean;
 };
@@ -176,7 +179,13 @@ function ratingValue(value: AgentRow["rating_value"]) {
   return Number.isFinite(number) ? number : null;
 }
 
+function salesPhotoPaths(value: unknown) {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((item) => (typeof item === "string" && item.trim() ? [item.trim()] : []));
+}
+
 function mapPublic(row: AgentRow): PublicAgent {
+  const paths = salesPhotoPaths(row.sales_photos);
   return {
     fullName: row.full_name,
     contactNumber: row.contact_number,
@@ -190,6 +199,10 @@ function mapPublic(row: AgentRow): PublicAgent {
     ratingValue: ratingValue(row.rating_value),
     ratingCount: ratingValue(row.rating_count) === null ? null : Math.round(Number(row.rating_count)),
     testimonials: testimonials(row.testimonials),
+    salesPhotoUrls: paths.flatMap((path) => {
+      const url = photoUrl(path);
+      return url ? [url] : [];
+    }),
     pageIdentifier: row.page_identifier,
   };
 }
@@ -201,6 +214,7 @@ function mapManaged(row: AgentRow): ManagedAgent {
     hidden: Boolean(row.is_hidden),
     photoPath: row.photo_path,
     videoPath: row.video_path ?? null,
+    salesPhotoPaths: salesPhotoPaths(row.sales_photos),
   };
 }
 
@@ -277,7 +291,7 @@ export async function nextPageIdentifier(name: string) {
   throw new Error("A page link could not be prepared. Try a slightly different name.");
 }
 
-function payload(input: AgentInput, photoPath: string | null, videoPath: string | null, pageIdentifier?: string) {
+function payload(input: AgentInput, photoPath: string | null, videoPath: string | null, salesPaths: string[], pageIdentifier?: string) {
   const blank = (value: string) => value.trim() || null;
   const rating = input.ratingValue.trim();
   const count = input.ratingCount.trim();
@@ -294,8 +308,16 @@ function payload(input: AgentInput, photoPath: string | null, videoPath: string 
     p_rating_value: rating ? Number(rating) : null,
     p_rating_count: count ? Number(count) : null,
     p_testimonials: input.testimonials.map((item) => ({ name: item.name.trim(), quote: item.quote.trim() })),
+    p_sales_photos: salesPaths,
     ...(pageIdentifier ? { p_page_identifier: pageIdentifier } : {}),
   };
+}
+
+export async function uploadSalesPhoto(file: File) {
+  if (file.size > 2 * 1024 * 1024) {
+    throw new Error("Use a JPG, PNG, or WebP photo under 2 MB. 1200 × 800 pixels keeps every card the same size.");
+  }
+  return uploadAgentPhoto(file);
 }
 
 export async function uploadAgentPhoto(file: File) {
@@ -337,10 +359,10 @@ export async function removeAgentVideo(path: string | null) {
   await supabase.storage.from("agent-videos").remove([path]);
 }
 
-export async function createAgent(input: AgentInput, photoPath: string | null, videoPath: string | null) {
+export async function createAgent(input: AgentInput, photoPath: string | null, videoPath: string | null, salesPaths: string[]) {
   const client = requireClient();
   const pageIdentifier = await nextPageIdentifier(input.fullName);
-  const { data, error } = await client.rpc("create_sales_agent", payload(input, photoPath, videoPath, pageIdentifier));
+  const { data, error } = await client.rpc("create_sales_agent", payload(input, photoPath, videoPath, salesPaths, pageIdentifier));
   if (error || !data) {
     await removeAgentPhoto(photoPath);
     await removeAgentVideo(videoPath);
@@ -349,11 +371,11 @@ export async function createAgent(input: AgentInput, photoPath: string | null, v
   return mapManaged(data as AgentRow);
 }
 
-export async function updateAgent(pageKey: string, input: AgentInput, photoPath: string | null, videoPath: string | null) {
+export async function updateAgent(pageKey: string, input: AgentInput, photoPath: string | null, videoPath: string | null, salesPaths: string[]) {
   const client = requireClient();
   const { data, error } = await client.rpc("update_sales_agent", {
     page_key: pageKey,
-    ...payload(input, photoPath, videoPath),
+    ...payload(input, photoPath, videoPath, salesPaths),
   });
   if (error || !data) throw new Error("The agent details could not be saved. Run the latest sales agent SQL, then try again.");
   return mapManaged(data as AgentRow);

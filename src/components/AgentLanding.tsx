@@ -1,3 +1,4 @@
+import { useReducedMotion } from "motion/react";
 import { useAgent } from "./agent-context";
 
 const STAR = "M12 2.4 14.9 8.5l6.7.9-4.9 4.6 1.2 6.6L12 17.4 6.1 20.6l1.2-6.6L2.4 9.4l6.7-.9L12 2.4Z";
@@ -31,6 +32,42 @@ function useAgentStory() {
   const agent = useAgent();
   if (!agent) return null;
   return agent;
+}
+
+export function AgentSales() {
+  const agent = useAgentStory();
+  const reduce = useReducedMotion();
+  const photos = agent?.salesPhotoUrls ?? [];
+  if (!agent || photos.length === 0) return null;
+
+  const single = photos.length === 1;
+  const copies = reduce || single ? [0] : [0, 1];
+  const seconds = Math.max(photos.length, 3) * 7;
+
+  return (
+    <section className={single ? "sales-gallery sales-single" : "sales-gallery"} aria-label="Proof of sales">
+      <p className="kicker">Proof of sales</p>
+      <div className={reduce || single ? "sales-viewport sales-static" : "sales-viewport"}>
+        <div className="sales-track" style={reduce || single ? undefined : { animationDuration: `${seconds}s` }}>
+          {copies.map((copy) => (
+            <div className="sales-set" key={copy} aria-hidden={copy === 1}>
+              {photos.map((src, index) => (
+                <figure className="sales-card" key={`${copy}-${src}`}>
+                  <img
+                    src={src}
+                    alt={copy === 1 ? "" : `${agent.fullName} sale ${index + 1}`}
+                    draggable={false}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export function AgentVideo() {
