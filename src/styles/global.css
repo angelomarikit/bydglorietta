@@ -1215,15 +1215,27 @@ p {
 .quote-cta {
   display: grid;
   justify-items: start;
-  gap: 16px;
-  max-width: 46ch;
-  margin-top: 22px;
+  gap: 28px;
+  width: 100%;
+  max-width: none;
+  margin-top: 18px;
+  padding: 40px 36px;
+  border-radius: 28px;
+  background: var(--light);
 }
 
 .quote-cta p {
-  color: var(--muted);
-  font-size: 16px;
-  line-height: 1.5;
+  max-width: none;
+  color: var(--ink);
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1.28;
+  font-weight: 300;
+}
+
+.quote-cta .btn {
+  min-height: 56px;
+  padding: 16px 28px;
+  font-size: 18px;
 }
 
 .form {

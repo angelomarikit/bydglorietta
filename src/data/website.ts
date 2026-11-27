@@ -70,7 +70,7 @@ export const websiteCopy = {
     noteKicker: "12 November 2026",
     note: "Suggested retail prices can change and can vary by dealer and location. Provincial prices may be higher.",
     testDrive: "Request a test drive",
-    quoteLine: "A quotation from BYD Glorietta follows this price list and confirms the variant, colour, and showroom price.",
+    quoteLine: "A quotation from BYD Glorietta is the written price for the Sealion 6 DM-i you want. It follows the 12 November 2026 suggested retail list: Dynamic at ₱1,548,000 and Premium at ₱1,798,000. That list can still change, and the figure can vary by variant, colour, dealer, and location. Provincial prices may be higher. Ask the Glorietta showroom to confirm the price in writing before you decide.",
     quoteButton: "Request for a quotation",
   },
   contact: {
