@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { X } from "lucide-react";
-import { InquiryLink } from "./InquiryLink";
 import { useAgent, useContactModal } from "./agent-context";
 import { Reveal } from "./Reveal";
 import { lineup, lineupPrice, type LineupModel, type LineupVariant } from "../data/lineup";
