@@ -457,7 +457,7 @@ export function AgentFormPage() {
             <button
               className="btn quiet"
               type="button"
-              disabled={input.testimonials.length >= 8}
+              disabled={input.testimonials.length >= 40}
               onClick={() => {
                 setInput((current) => ({
                   ...current,

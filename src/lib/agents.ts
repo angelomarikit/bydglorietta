@@ -127,7 +127,7 @@ export function validateAgent(input: AgentInput) {
     if (item.quote.trim().length < 8 || item.quote.trim().length > 400) {
       errors.testimonials = "Each quote needs between 8 and 400 characters.";
     }
-    if (index > 7) errors.testimonials = "Add up to 8 testimonials.";
+    if (index > 39) errors.testimonials = "Add up to 40 testimonials.";
   });
   return errors;
 }
@@ -257,6 +257,23 @@ export async function getPublicAgent(pageKey: string) {
   const { data, error } = await client.rpc("get_public_agent", { page_key: pageKey });
   if (error || !data) return null;
   return mapPublic(data as AgentRow);
+}
+
+export async function addAgentTestimonial(pageKey: string, name: string, quote: string) {
+  const client = requireClient();
+  const { error } = await client.rpc("add_agent_testimonial", {
+    page_key: pageKey,
+    customer_name: name.trim(),
+    customer_quote: quote.trim(),
+  });
+  if (error) {
+    const message = error.message ?? "";
+    if (message.includes("customer name")) throw new Error("Enter your name.");
+    if (message.includes("between 8 and 400")) throw new Error("Write between 8 and 400 characters.");
+    if (message.includes("feedback limit")) throw new Error("This page has reached the feedback limit.");
+    if (message.includes("not available")) throw new Error("This agent page is not available.");
+    throw new Error("The feedback could not be saved. Run the latest sales agent SQL, then try again.");
+  }
 }
 
 export async function administratorSignedIn() {
