@@ -85,6 +85,11 @@ export const websiteCopy = {
     sentTitle: "Message kept on this page only.",
     sentBody: "Use www.bydcarsph.com to reach the brand while this form has no inbox behind it.",
     send: "Send message",
+    salesManager: "",
+    salesManagerPhone: "",
+    experienceTitle: "Customer Xperience Officer",
+    experienceName: "",
+    experiencePhone: "",
   },
   drive: {
     kicker: "Test drive",
@@ -232,6 +237,11 @@ export const websiteSections: {
       { key: "sentTitle", label: "Sent heading" },
       { key: "sentBody", label: "Sent note", long: true },
       { key: "send", label: "Send button" },
+      { key: "salesManager", label: "Sales manager" },
+      { key: "salesManagerPhone", label: "Contact number" },
+      { key: "experienceTitle", label: "Customer Xperience Officer" },
+      { key: "experienceName", label: "Name" },
+      { key: "experiencePhone", label: "Contact number" },
     ],
   },
   {

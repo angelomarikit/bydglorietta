@@ -1052,6 +1052,34 @@ p {
   padding-top: 22px;
 }
 
+.contact-people {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 28px;
+  margin-top: 28px;
+}
+
+.contact-people article {
+  display: grid;
+  gap: 4px;
+}
+
+.contact-people strong,
+.contact-people a {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.contact-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 24px;
+}
+
 .acm {
   width: 180px;
   aspect-ratio: 2756 / 781;
@@ -1360,6 +1388,7 @@ p {
   .option-grid,
   .car-hero,
   .contact-grid,
+  .contact-people,
   .hero-copy,
   .cta-card,
   .footer-row {

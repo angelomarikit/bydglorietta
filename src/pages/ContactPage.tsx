@@ -32,8 +32,33 @@ export function ContactPage() {
             </article>
           </div>
           <p className="muted">{contact.note}</p>
-          <div className="acm" style={{ marginTop: 24 }}>
-            <img src={photos.acmobility} alt="ACMobility" />
+          <div className="contact-people">
+            <article>
+              <span className="muted">Sales manager</span>
+              <strong>{contact.salesManager}</strong>
+              <span className="muted">Contact number</span>
+              {contact.salesManagerPhone ? (
+                <a href={`tel:${contact.salesManagerPhone.replace(/[^\d+]/g, "")}`}>{contact.salesManagerPhone}</a>
+              ) : (
+                <strong />
+              )}
+            </article>
+            <article>
+              <span className="muted">{contact.experienceTitle}</span>
+              <strong>{contact.experienceName}</strong>
+              <span className="muted">Contact number</span>
+              {contact.experiencePhone ? (
+                <a href={`tel:${contact.experiencePhone.replace(/[^\d+]/g, "")}`}>{contact.experiencePhone}</a>
+              ) : (
+                <strong />
+              )}
+            </article>
+          </div>
+          <div className="contact-brand">
+            <div className="acm">
+              <img src={photos.acmobility} alt="ACMobility" />
+            </div>
+            <a className="btn" href="#contact-form">Contact Us</a>
           </div>
         </div>
         {sent ? (
@@ -42,7 +67,7 @@ export function ContactPage() {
             <p style={{ marginTop: 12 }}>{contact.sentBody}</p>
           </div>
         ) : (
-          <form className="form" onSubmit={submit}>
+          <form className="form" id="contact-form" onSubmit={submit}>
             <label>
               Name
               <input name="name" required autoComplete="name" />

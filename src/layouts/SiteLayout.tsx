@@ -14,7 +14,7 @@ const links = [
   { to: "/car-details", label: "Car details", end: false },
   { to: "/order", label: "Test drive", end: false },
   { to: "/blog", label: "Blog", end: false },
-  { to: "/contact", label: "Contact", end: false },
+  { to: "/contact", label: "Contact Us", end: false },
 ];
 
 type AgentState =
@@ -117,15 +117,12 @@ export function SiteLayout() {
               </p>
               {agent && <AgentFooterDetails agent={agent} />}
             </div>
-            <InquiryLink className="btn light" to="/order">
-              {copy.footer.testDrive}
-            </InquiryLink>
           </div>
           {!agentIdentifier && (
             <nav>
               <NavLink to="/car-details">Sealion 6</NavLink>
               <InquiryLink to="/order">Test drive</InquiryLink>
-              <InquiryLink to="/contact">Contact</InquiryLink>
+              <InquiryLink to="/contact">Contact Us</InquiryLink>
               <NavLink to="/blog">{copy.blog.kicker}</NavLink>
             </nav>
           )}
