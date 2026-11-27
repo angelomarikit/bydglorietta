@@ -4,6 +4,7 @@ import { SiteLayout } from "./layouts/SiteLayout";
 import { BlogPage } from "./pages/BlogPage";
 import { CarPage } from "./pages/CarPage";
 import { ContactPage } from "./pages/ContactPage";
+import { RegistrationPage } from "./pages/RegistrationPage";
 import { ServicePage } from "./pages/ServicePage";
 import { EnquirePage } from "./pages/EnquirePage";
 import { HomePage } from "./pages/HomePage";
@@ -36,6 +37,7 @@ export function App() {
             <Route path="blog/:slug" element={<PostPage />} />
             <Route path="contact" element={<ContactPage />} />
             <Route path="service-center" element={<ServicePage />} />
+            <Route path="vehicle-registration" element={<RegistrationPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
           <Route path="admin" element={<AdminGate />}>
