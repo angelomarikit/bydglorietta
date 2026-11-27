@@ -1013,7 +1013,17 @@ p {
 .section-cta {
   display: flex;
   justify-content: center;
-  padding: 56px var(--pad) 88px;
+  padding: 36px var(--pad) 48px;
+}
+
+.vehicle-spin {
+  position: relative;
+  height: 220vh;
+  background: white;
+}
+
+.vehicle-spin-static {
+  height: auto;
 }
 
 .section-cta .btn {
@@ -1603,9 +1613,93 @@ p {
   }
 
   .hero {
-    height: 100vh;
-    min-height: 100vh;
+    height: 78vh;
+    min-height: 560px;
     background: #0d0d0f;
+  }
+
+  .intro {
+    padding: 64px var(--pad) 28px;
+  }
+
+  .watermark {
+    top: 16px;
+    font-size: clamp(56px, 18vw, 96px);
+  }
+
+  .stat-grid {
+    margin-top: 28px;
+  }
+
+  .experience,
+  .news {
+    padding-bottom: 28px;
+  }
+
+  .experience h2,
+  .tech h2,
+  .product h2,
+  .news h2,
+  .agents h2 {
+    margin-bottom: 16px;
+  }
+
+  .tech {
+    padding: 48px var(--pad) 36px;
+  }
+
+  .range {
+    padding: 24px var(--pad) 28px;
+  }
+
+  .range-note {
+    margin-bottom: 20px;
+  }
+
+  .range-grid,
+  .car-side {
+    grid-template-columns: 1fr;
+  }
+
+  .section-cta,
+  .range .section-cta {
+    padding: 20px var(--pad) 28px;
+  }
+
+  .film .section-cta {
+    padding-top: 16px;
+  }
+
+  .switch,
+  .agent-story {
+    padding: 40px var(--pad) 32px;
+  }
+
+  .sales-gallery,
+  .review-gallery {
+    padding-bottom: 28px;
+  }
+
+  .vehicle-spin {
+    height: 145vh;
+  }
+
+  .cta-card {
+    padding: 28px 20px;
+    gap: 18px;
+    border-radius: 28px;
+  }
+
+  .cta-card h2 {
+    font-size: clamp(34px, 9vw, 48px);
+  }
+
+  .footer {
+    padding: 28px 20px 108px;
+  }
+
+  .page {
+    padding: 96px var(--pad) 88px;
   }
 
   .hero-copy {
@@ -1636,9 +1730,6 @@ p {
     padding-right: 24px;
   }
 
-  .tech {
-    padding-top: 80px;
-  }
 
   .cabin-card {
     width: min(82vw, 680px);

@@ -23,7 +23,6 @@ function sameDetails(variants: LineupVariant[]) {
 }
 
 export function ModelCollection({ testDriveLabel }: ModelCollectionProps) {
-  const agent = useAgent();
   const [selected, setSelected] = useState<LineupModel | null>(null);
 
   return (
@@ -50,13 +49,6 @@ export function ModelCollection({ testDriveLabel }: ModelCollectionProps) {
       </div>
       {selected && (
         <ModelWindow model={selected} testDriveLabel={testDriveLabel} onClose={() => setSelected(null)} />
-      )}
-      {agent && (
-        <div className="section-cta">
-          <InquiryLink className="btn gold" to="/order">
-            {testDriveLabel}
-          </InquiryLink>
-        </div>
       )}
     </section>
   );

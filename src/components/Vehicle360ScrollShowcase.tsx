@@ -70,7 +70,7 @@ export function Vehicle360ScrollShowcase({
   return (
     <section
       ref={sectionRef}
-      className={reduce ? "relative bg-white" : "relative h-[320vh] bg-white"}
+      className={reduce ? "vehicle-spin vehicle-spin-static" : "vehicle-spin"}
       aria-label="Sealion 6 DM-i, scroll to turn the car"
     >
       <div className="sticky top-0 flex h-dvh flex-col items-center justify-center px-6 pb-28 pt-24">

@@ -74,7 +74,6 @@ export function HomePage() {
             </article>
           </Reveal>
         </div>
-        {agent && <SectionCta label={home.testDrive} />}
       </section>
 
       <AgentReviews />
@@ -121,7 +120,6 @@ export function HomePage() {
             priority
           />
         </Reveal>
-        {agent && <SectionCta label={home.testDrive} />}
       </section>
 
       <AgentVideo />
@@ -131,10 +129,7 @@ export function HomePage() {
         eyebrow={home.showcaseEyebrow}
         title={home.showcaseTitle}
       />
-      {agent && <SectionCta label={home.testDrive} />}
-
       <CabinMarquee frames={cabinFrames} />
-      {agent && <SectionCta label={home.testDrive} />}
 
       <section className="tech">
         <Reveal>
@@ -151,7 +146,6 @@ export function HomePage() {
             />
           </a>
         </Reveal>
-        {agent && <SectionCta label={home.testDrive} />}
       </section>
 
       <ModelCollection testDriveLabel={home.testDrive} />
@@ -189,7 +183,6 @@ export function HomePage() {
           })}
         </div>
         </Reveal>
-        {agent && <SectionCta label={home.testDrive} />}
       </section>
 
       <section className="cta">
@@ -253,15 +246,5 @@ function ManagedVideo({
       controls={false}
       aria-label={label}
     />
-  );
-}
-
-function SectionCta({ label }: { label: string }) {
-  return (
-    <div className="section-cta">
-      <InquiryLink className="btn gold" to="/order">
-        {label}
-      </InquiryLink>
-    </div>
   );
 }
