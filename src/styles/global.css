@@ -1599,16 +1599,132 @@ p {
 
 .feedback-card {
   justify-items: stretch;
+  gap: 8px;
+  width: min(100%, 560px);
+  padding: 36px 32px 28px;
+  background: #f7f7f4;
   text-align: left;
 }
 
+.feedback-card .kicker {
+  color: var(--muted);
+}
+
 .feedback-card h3 {
-  font-size: 32px;
-  margin-right: 48px;
+  font-size: clamp(36px, 4vw, 48px);
+  margin: 0 48px 0 0;
+}
+
+.feedback-lead {
+  max-width: none;
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: left;
 }
 
 .feedback-card .form {
   width: 100%;
+  gap: 12px;
+}
+
+.feedback-card .form label {
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.feedback-card .form input,
+.feedback-card .form textarea {
+  border: 0;
+  background: white;
+  border-radius: 18px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+.feedback-card .form textarea {
+  min-height: 148px;
+}
+
+.feedback-card .form .feedback-photo {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 0;
+  padding: 0;
+  border: 1px dashed rgba(13, 13, 15, 0.2);
+  border-radius: 22px;
+  background: white;
+  color: var(--muted);
+  cursor: pointer;
+  overflow: hidden;
+  text-align: center;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 16px;
+}
+
+.feedback-photo span {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 20px;
+}
+
+.feedback-photo svg {
+  width: 28px;
+  height: 28px;
+}
+
+.feedback-photo strong {
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.feedback-photo small {
+  max-width: 28ch;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.feedback-photo input {
+  display: none;
+}
+
+.feedback-card .feedback-photo img {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: contain;
+  border-radius: 0;
+  background: white;
+}
+
+.feedback-clear {
+  justify-self: start;
+  margin: -4px 0 4px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--display);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.feedback-count {
+  justify-self: end;
+  margin-top: -6px;
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .review-viewport {

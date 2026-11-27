@@ -259,17 +259,19 @@ export async function getPublicAgent(pageKey: string) {
   return mapPublic(data as AgentRow);
 }
 
-export async function addAgentTestimonial(pageKey: string, name: string, quote: string) {
+export async function addAgentTestimonial(pageKey: string, name: string, quote: string, photoPath: string | null) {
   const client = requireClient();
   const { error } = await client.rpc("add_agent_testimonial", {
     page_key: pageKey,
     customer_name: name.trim(),
     customer_quote: quote.trim(),
+    customer_photo: photoPath,
   });
   if (error) {
     const message = error.message ?? "";
     if (message.includes("customer name")) throw new Error("Enter your name.");
     if (message.includes("between 8 and 400")) throw new Error("Write between 8 and 400 characters.");
+    if (message.includes("could not be saved")) throw new Error("The photo could not be saved.");
     if (message.includes("feedback limit")) throw new Error("This page has reached the feedback limit.");
     if (message.includes("not available")) throw new Error("This agent page is not available.");
     throw new Error("The feedback could not be saved. Run the latest sales agent SQL, then try again.");

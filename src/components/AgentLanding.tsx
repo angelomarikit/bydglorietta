@@ -1,7 +1,7 @@
 import { useReducedMotion } from "motion/react";
-import { X } from "lucide-react";
+import { ImagePlus, X } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
-import { addAgentTestimonial, type AgentTestimonial } from "../lib/agents";
+import { addAgentTestimonial, uploadSalesPhoto, type AgentTestimonial } from "../lib/agents";
 import { useAgent } from "./agent-context";
 
 const STAR = "M12 2.4 14.9 8.5l6.7.9-4.9 4.6 1.2 6.6L12 17.4 6.1 20.6l1.2-6.6L2.4 9.4l6.7-.9L12 2.4Z";
@@ -99,6 +99,8 @@ export function AgentReviews() {
   const [writing, setWriting] = useState(false);
   const [name, setName] = useState("");
   const [quote, setQuote] = useState("");
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const pageKey = agent?.pageIdentifier;
@@ -107,7 +109,21 @@ export function AgentReviews() {
     setAdded([]);
     setOpen(null);
     setWriting(false);
+    setPhoto(null);
+    setPreview((current) => {
+      if (current) URL.revokeObjectURL(current);
+      return null;
+    });
   }, [pageKey]);
+
+  function choosePhoto(file: File | null) {
+    setError("");
+    setPhoto(file);
+    setPreview((current) => {
+      if (current) URL.revokeObjectURL(current);
+      return file ? URL.createObjectURL(file) : null;
+    });
+  }
 
   useEffect(() => {
     if (open === null && !writing) return;
@@ -145,12 +161,18 @@ export function AgentReviews() {
     }
     setSaving(true);
     setError("");
+    let photoPath: string | null = null;
     try {
       if (!pageKey) return;
-      await addAgentTestimonial(pageKey, customer, words);
-      setAdded((current) => [...current, { name: customer, quote: words, photoPath: null, photoUrl: null }]);
+      if (photo) {
+        photoPath = await uploadSalesPhoto(photo, "Use a JPG, PNG, or WebP photo under 2 MB. 800 × 800 pixels keeps every review photo the same size.");
+      }
+      await addAgentTestimonial(pageKey, customer, words, photoPath);
+      setAdded((current) => [...current, { name: customer, quote: words, photoPath, photoUrl: preview }]);
       setName("");
       setQuote("");
+      setPhoto(null);
+      setPreview(null);
       setWriting(false);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "The feedback could not be saved.");
@@ -211,16 +233,38 @@ export function AgentReviews() {
             <button className="lightbox-close" type="button" aria-label="Close" disabled={saving} onClick={() => setWriting(false)}>
               <X />
             </button>
+            <p className="kicker">Share your experience</p>
             <h3>Leave feedback</h3>
+            <p className="feedback-lead">Your name and words are saved on this agent’s page.</p>
             <form className="form" onSubmit={submitFeedback}>
+              <label className="feedback-photo">
+                {preview ? <img src={preview} alt="" /> : (
+                  <span>
+                    <ImagePlus />
+                    <strong>Add a photo</strong>
+                    <small>Optional · 800 × 800 · JPG, PNG, or WebP · under 2 MB</small>
+                  </span>
+                )}
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={(event) => choosePhoto(event.target.files?.[0] ?? null)}
+                />
+              </label>
+              {preview && (
+                <button className="feedback-clear" type="button" onClick={() => choosePhoto(null)}>
+                  Remove photo
+                </button>
+              )}
               <label>
                 Your name
-                <input value={name} maxLength={80} onChange={(event) => setName(event.target.value)} />
+                <input value={name} maxLength={80} placeholder="Javier Martín Gil" onChange={(event) => setName(event.target.value)} />
               </label>
               <label>
                 Your feedback
-                <textarea value={quote} maxLength={400} onChange={(event) => setQuote(event.target.value)} />
+                <textarea value={quote} maxLength={400} placeholder="Tell us about the cars and the person who helped you." onChange={(event) => setQuote(event.target.value)} />
               </label>
+              <span className="feedback-count">{quote.trim().length}/400</span>
               {error && <span className="form-error">{error}</span>}
               <button className="btn" type="submit" disabled={saving}>
                 {saving ? "Saving" : "Save feedback"}
