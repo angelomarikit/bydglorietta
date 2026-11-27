@@ -1580,11 +1580,6 @@ p {
 .review-track {
   display: flex;
   width: max-content;
-  animation: review-move linear infinite;
-}
-
-.review-static .review-track {
-  animation: none;
 }
 
 .review-static.review-viewport {
@@ -1594,11 +1589,7 @@ p {
 .review-set {
   display: flex;
   gap: 18px;
-  padding-right: 18px;
-}
-
-.review-gallery.is-open .review-track {
-  animation-play-state: paused;
+  padding: 0 var(--pad) 8px;
 }
 
 .review-card {
@@ -1696,15 +1687,6 @@ p {
   font-family: var(--display);
   font-size: 15px;
   font-weight: 500;
-}
-
-@keyframes review-move {
-  from {
-    transform: translateX(-50%);
-  }
-  to {
-    transform: translateX(0);
-  }
 }
 
 .agent-reviews {

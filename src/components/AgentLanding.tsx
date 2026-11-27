@@ -93,7 +93,6 @@ export function AgentVideo() {
 
 export function AgentReviews() {
   const agent = useAgentStory();
-  const reduce = useReducedMotion();
   const items = agent?.testimonials ?? [];
   const [open, setOpen] = useState<number | null>(null);
 
@@ -113,39 +112,33 @@ export function AgentReviews() {
 
   if (!agent || items.length === 0) return null;
 
-  const repeats = Math.max(1, Math.ceil(6 / items.length));
-  const loop = Array.from({ length: repeats }, () => items).flat();
-  const copies = reduce ? [0] : [0, 1];
-  const seconds = Math.max(loop.length, 4) * 4;
   const stars = agent.ratingValue;
   const selected = open === null ? null : items[open];
 
   return (
-    <section className={open === null ? "review-gallery" : "review-gallery is-open"} aria-label="Customer rating">
+    <section className="review-gallery" aria-label="Customer rating">
       <p className="kicker">Customer testimonials</p>
-      <div className={reduce ? "review-viewport review-static" : "review-viewport"}>
-        <div className="review-track" style={reduce ? undefined : { animationDuration: `${seconds}s` }}>
-          {copies.map((copy) => (
-            <div className="review-set" key={copy} aria-hidden={copy === 1}>
-              {loop.map((item, index) => (
-                <button
-                  className="review-card"
-                  type="button"
-                  key={`${copy}-${index}`}
-                  onClick={() => setOpen(index % items.length)}
-                >
-                  {stars !== null && <Stars value={stars} idPrefix={`${copy}-${index}`} />}
-                  <figure>
-                    {item.photoUrl ? (
-                      <img src={item.photoUrl} alt="" loading="lazy" decoding="async" />
-                    ) : (
-                      <span className="review-fallback">{item.quote}</span>
-                    )}
-                  </figure>
-                </button>
-              ))}
-            </div>
-          ))}
+      <div className="review-viewport review-static">
+        <div className="review-track">
+          <div className="review-set">
+            {items.map((item, index) => (
+              <button
+                className="review-card"
+                type="button"
+                key={`${item.name}-${index}`}
+                onClick={() => setOpen(index)}
+              >
+                {stars !== null && <Stars value={stars} idPrefix={`${index}`} />}
+                <figure>
+                  {item.photoUrl ? (
+                    <img src={item.photoUrl} alt="" loading="lazy" decoding="async" />
+                  ) : (
+                    <span className="review-fallback">{item.quote}</span>
+                  )}
+                </figure>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
       {selected && (
