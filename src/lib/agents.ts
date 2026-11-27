@@ -3,6 +3,8 @@ import { supabase } from "./supabase";
 export type AgentTestimonial = {
   name: string;
   quote: string;
+  photoPath: string | null;
+  photoUrl: string | null;
 };
 
 export type PublicAgent = {
@@ -163,13 +165,16 @@ function videoUrl(path: string | null | undefined) {
   return supabase.storage.from("agent-videos").getPublicUrl(path).data.publicUrl;
 }
 
-function testimonials(value: AgentRow["testimonials"]) {
+function testimonials(value: unknown): AgentTestimonial[] {
   if (!Array.isArray(value)) return [];
   return value.flatMap((item) => {
-    if (!item || typeof item.name !== "string" || typeof item.quote !== "string") return [];
-    const name = item.name.trim();
-    const quote = item.quote.trim();
-    return name && quote ? [{ name, quote }] : [];
+    if (!item || typeof item !== "object") return [];
+    const record = item as { name?: unknown; quote?: unknown; photo_path?: unknown };
+    if (typeof record.name !== "string" || typeof record.quote !== "string") return [];
+    const name = record.name.trim();
+    const quote = record.quote.trim();
+    const photoPath = typeof record.photo_path === "string" && record.photo_path.trim() ? record.photo_path.trim() : null;
+    return name && quote ? [{ name, quote, photoPath, photoUrl: photoUrl(photoPath) }] : [];
   });
 }
 
@@ -307,15 +312,19 @@ function payload(input: AgentInput, photoPath: string | null, videoPath: string 
     p_video_path: videoPath,
     p_rating_value: rating ? Number(rating) : null,
     p_rating_count: count ? Number(count) : null,
-    p_testimonials: input.testimonials.map((item) => ({ name: item.name.trim(), quote: item.quote.trim() })),
+    p_testimonials: input.testimonials.map((item) => ({
+      name: item.name.trim(),
+      quote: item.quote.trim(),
+      photo_path: item.photoPath,
+    })),
     p_sales_photos: salesPaths,
     ...(pageIdentifier ? { p_page_identifier: pageIdentifier } : {}),
   };
 }
 
-export async function uploadSalesPhoto(file: File) {
+export async function uploadSalesPhoto(file: File, message = "Use a JPG, PNG, or WebP photo under 2 MB. 1200 × 800 pixels keeps every card the same size.") {
   if (file.size > 2 * 1024 * 1024) {
-    throw new Error("Use a JPG, PNG, or WebP photo under 2 MB. 1200 × 800 pixels keeps every card the same size.");
+    throw new Error(message);
   }
   return uploadAgentPhoto(file);
 }
@@ -385,4 +394,13 @@ export async function setAgentHidden(pageKey: string, hidden: boolean) {
   const client = requireClient();
   const { error } = await client.rpc("set_agent_visibility", { page_key: pageKey, hidden });
   if (error) throw new Error(hidden ? "The page could not be hidden." : "The page could not be shown.");
+}
+
+export async function deleteAgent(agent: ManagedAgent) {
+  const client = requireClient();
+  const { error } = await client.rpc("delete_sales_agent", { page_key: agent.pageIdentifier });
+  if (error) throw new Error("The sales agent could not be deleted. Run the latest sales agent SQL, then try again.");
+  await removeAgentPhoto(agent.photoPath);
+  await removeAgentVideo(agent.videoPath);
+  await Promise.all(agent.salesPhotoPaths.map((path) => removeAgentPhoto(path)));
 }

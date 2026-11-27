@@ -77,6 +77,8 @@ export function HomePage() {
         {agent && <SectionCta label={home.testDrive} />}
       </section>
 
+      <AgentReviews />
+
       <AgentSales />
 
       <section className="experience">
@@ -200,8 +202,6 @@ export function HomePage() {
         </div>
         </Reveal>
       </section>
-
-      <AgentReviews />
     </main>
   );
 }

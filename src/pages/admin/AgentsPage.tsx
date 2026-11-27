@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { listAgents, pageAddress, setAgentHidden, type ManagedAgent } from "../../lib/agents";
+import { deleteAgent, listAgents, pageAddress, setAgentHidden, type ManagedAgent } from "../../lib/agents";
 
 export function AgentsPage() {
   const [agents, setAgents] = useState<ManagedAgent[]>([]);
@@ -45,6 +45,18 @@ export function AgentsPage() {
     }
   }
 
+  async function remove(agent: ManagedAgent) {
+    const question = `Delete ${agent.fullName}? This removes the page, the link, and the uploaded photos and video. This cannot be undone.`;
+    if (!window.confirm(question)) return;
+    setError("");
+    try {
+      await deleteAgent(agent);
+      await refresh();
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "The sales agent could not be deleted.");
+    }
+  }
+
   return (
     <div className="admin-panel wide">
       <div className="admin-heading">
@@ -85,6 +97,9 @@ export function AgentsPage() {
                   </Link>
                   <button className="btn" type="button" onClick={() => toggle(agent)}>
                     {agent.hidden ? "Show Page" : "Hide Page"}
+                  </button>
+                  <button className="btn" type="button" onClick={() => remove(agent)}>
+                    Delete
                   </button>
                 </div>
               </article>

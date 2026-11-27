@@ -121,6 +121,7 @@ export function AgentReviews() {
           <div className="quote-grid">
             {agent.testimonials.map((item) => (
               <blockquote className="quote-card" key={`${item.name}-${item.quote}`}>
+                {item.photoUrl && <img src={item.photoUrl} alt="" />}
                 <p>{item.quote}</p>
                 <footer>{item.name}</footer>
               </blockquote>

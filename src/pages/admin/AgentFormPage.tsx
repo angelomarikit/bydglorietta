@@ -41,6 +41,9 @@ export function AgentFormPage() {
   const [salesFiles, setSalesFiles] = useState<File[]>([]);
   const [salesPreviews, setSalesPreviews] = useState<string[]>([]);
   const [salesInputKey, setSalesInputKey] = useState(0);
+  const [reviewFiles, setReviewFiles] = useState<(File | null)[]>([]);
+  const [reviewPreviews, setReviewPreviews] = useState<(string | null)[]>([]);
+  const [droppedReviewPhotos, setDroppedReviewPhotos] = useState<string[]>([]);
   const [errors, setErrors] = useState<Partial<Record<keyof AgentInput, string>>>({});
   const [formError, setFormError] = useState("");
   const [pending, setPending] = useState(false);
@@ -67,6 +70,8 @@ export function AgentFormPage() {
           ratingCount: agent.ratingCount === null ? "" : String(agent.ratingCount),
           testimonials: agent.testimonials,
         });
+        setReviewFiles(agent.testimonials.map(() => null));
+        setDroppedReviewPhotos([]);
         setExistingPhoto(agent.photoUrl);
         setKeptSales(agent.salesPhotoPaths.flatMap((path, index) => {
           const url = agent.salesPhotoUrls[index];
@@ -116,6 +121,50 @@ export function AgentFormPage() {
     setSalesInputKey((key) => key + 1);
   }
 
+  useEffect(() => {
+    const urls = reviewFiles.map((file) => (file ? URL.createObjectURL(file) : null));
+    setReviewPreviews(urls);
+    return () => urls.forEach((url) => {
+      if (url) URL.revokeObjectURL(url);
+    });
+  }, [reviewFiles]);
+
+  function setReviewFile(index: number, file: File | null) {
+    if (file && (!["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size > 2 * 1024 * 1024)) {
+      setFormError("Use a JPG, PNG, or WebP photo under 2 MB. 800 × 800 pixels keeps every review photo the same size.");
+      return;
+    }
+    setFormError("");
+    setReviewFiles((current) => {
+      const next = current.slice();
+      while (next.length <= index) next.push(null);
+      next[index] = file;
+      return next;
+    });
+  }
+
+  function removeTestimonial(index: number) {
+    const current = input.testimonials[index];
+    if (current?.photoPath) setDroppedReviewPhotos((paths) => [...paths, current.photoPath as string]);
+    setInput((form) => ({
+      ...form,
+      testimonials: form.testimonials.filter((_, itemIndex) => itemIndex !== index),
+    }));
+    setReviewFiles((files) => files.filter((_, itemIndex) => itemIndex !== index));
+  }
+
+  function clearReviewPhoto(index: number) {
+    const current = input.testimonials[index];
+    if (current?.photoPath) setDroppedReviewPhotos((paths) => [...paths, current.photoPath as string]);
+    setInput((form) => ({
+      ...form,
+      testimonials: form.testimonials.map((item, itemIndex) => (
+        itemIndex === index ? { ...item, photoPath: null, photoUrl: null } : item
+      )),
+    }));
+    setReviewFile(index, null);
+  }
+
   function setField(key: Exclude<keyof AgentInput, "testimonials">, value: string) {
     setInput((current) => ({ ...current, [key]: value }));
   }
@@ -134,7 +183,7 @@ export function AgentFormPage() {
     const ready: AgentInput = {
       ...input,
       testimonials: input.testimonials
-        .map((item) => ({ name: item.name.trim(), quote: item.quote.trim() }))
+        .map((item) => ({ name: item.name.trim(), quote: item.quote.trim(), photoPath: item.photoPath, photoUrl: item.photoUrl }))
         .filter((item) => item.name || item.quote),
     };
     setInput(ready);
@@ -142,14 +191,37 @@ export function AgentFormPage() {
     setErrors(nextErrors);
     setFormError("");
     if (Object.keys(nextErrors).length > 0) return;
+    const dropped = [...droppedReviewPhotos];
+    const paired = input.testimonials.flatMap((item, index) => {
+      const name = item.name.trim();
+      const quote = item.quote.trim();
+      if (!name && !quote) {
+        if (item.photoPath) dropped.push(item.photoPath);
+        return [];
+      }
+      return [{ item: { ...item, name, quote, photoPath: item.photoPath ?? null }, file: reviewFiles[index] ?? null }];
+    });
     setPending(true);
     let uploadedPhoto: string | null = null;
     let uploadedVideo: string | null = null;
     const uploadedSales: string[] = [];
+    const uploadedReviews: string[] = [];
     try {
       if (photo) uploadedPhoto = await uploadAgentPhoto(photo);
       if (video) uploadedVideo = await uploadAgentVideo(video);
       for (const file of salesFiles) uploadedSales.push(await uploadSalesPhoto(file));
+      const prepared = [];
+      for (const entry of paired) {
+        let reviewPath = entry.item.photoPath;
+        if (entry.file) {
+          const next = await uploadSalesPhoto(entry.file, "Use a JPG, PNG, or WebP photo under 2 MB. 800 × 800 pixels keeps every review photo the same size.");
+          uploadedReviews.push(next);
+          if (reviewPath) dropped.push(reviewPath);
+          reviewPath = next;
+        }
+        prepared.push({ name: entry.item.name, quote: entry.item.quote, photoPath: reviewPath, photoUrl: null });
+      }
+      const withReviews: AgentInput = { ...ready, testimonials: prepared };
       const photoPath = uploadedPhoto ?? saved?.photoPath ?? null;
       const videoPath = video && uploadedVideo
         ? uploadedVideo
@@ -158,18 +230,22 @@ export function AgentFormPage() {
           : saved?.videoPath ?? null;
       const salesPaths = [...keptSales.map((item) => item.path), ...uploadedSales];
       const agent = editing && pageIdentifier
-        ? await updateAgent(pageIdentifier, ready, photoPath, videoPath, salesPaths)
-        : await createAgent(ready, uploadedPhoto, uploadedVideo, salesPaths);
+        ? await updateAgent(pageIdentifier, withReviews, photoPath, videoPath, salesPaths)
+        : await createAgent(withReviews, uploadedPhoto, uploadedVideo, salesPaths);
       if (uploadedPhoto && saved?.photoPath && uploadedPhoto !== saved.photoPath) await removeAgentPhoto(saved.photoPath);
       if (saved?.videoPath && saved.videoPath !== agent.videoPath) await removeAgentVideo(saved.videoPath);
       const removedSales = (saved?.salesPhotoPaths ?? []).filter((path) => !salesPaths.includes(path));
       await Promise.all(removedSales.map((path) => removeAgentPhoto(path)));
+      await Promise.all(dropped.map((path) => removeAgentPhoto(path)));
       setSaved(agent);
       setExistingPhoto(agent.photoUrl);
       setKeptSales(agent.salesPhotoPaths.flatMap((path, index) => {
         const url = agent.salesPhotoUrls[index];
         return url ? [{ path, url }] : [];
       }));
+      setInput((current) => ({ ...current, testimonials: agent.testimonials }));
+      setReviewFiles(agent.testimonials.map(() => null));
+      setDroppedReviewPhotos([]);
       setPhoto(null);
       setVideo(null);
       setSalesFiles([]);
@@ -179,6 +255,7 @@ export function AgentFormPage() {
       if (uploadedPhoto) await removeAgentPhoto(uploadedPhoto);
       if (uploadedVideo) await removeAgentVideo(uploadedVideo);
       await Promise.all(uploadedSales.map((path) => removeAgentPhoto(path)));
+      await Promise.all(uploadedReviews.map((path) => removeAgentPhoto(path)));
       setFormError(reason instanceof Error ? reason.message : "The agent page could not be saved.");
     } finally {
       setPending(false);
@@ -352,13 +429,26 @@ export function AgentFormPage() {
                     onChange={(event) => setTestimonial(index, "quote", event.target.value)}
                   />
                 </label>
+                <label>
+                  Customer photo
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    onChange={(event) => setReviewFile(index, event.target.files?.[0] ?? null)}
+                  />
+                </label>
+                {(reviewPreviews[index] || item.photoUrl) && (
+                  <img className="review-photo" src={reviewPreviews[index] || item.photoUrl || ""} alt="" />
+                )}
+                {(reviewFiles[index] || item.photoPath) && (
+                  <button className="btn quiet" type="button" onClick={() => clearReviewPhoto(index)}>
+                    Remove photo
+                  </button>
+                )}
                 <button
                   className="btn quiet"
                   type="button"
-                  onClick={() => setInput((current) => ({
-                    ...current,
-                    testimonials: current.testimonials.filter((_, itemIndex) => itemIndex !== index),
-                  }))}
+                  onClick={() => removeTestimonial(index)}
                 >
                   Remove
                 </button>
@@ -368,15 +458,22 @@ export function AgentFormPage() {
               className="btn quiet"
               type="button"
               disabled={input.testimonials.length >= 8}
-              onClick={() => setInput((current) => ({
-                ...current,
-                testimonials: [...current.testimonials, { name: "", quote: "" }],
-              }))}
+              onClick={() => {
+                setInput((current) => ({
+                  ...current,
+                  testimonials: [...current.testimonials, { name: "", quote: "", photoPath: null, photoUrl: null }],
+                }));
+                setReviewFiles((files) => [...files, null]);
+              }}
             >
               Add testimonial
             </button>
             {errors.testimonials && <span className="form-error">{errors.testimonials}</span>}
           </fieldset>
+          <p className="page-link-note">
+            A testimonial photo is optional. Upload it here so it is stored in your cloud, not pasted as a link.
+            Use 800 × 800 pixels (1:1), JPG, PNG, or WebP, under 2 MB. That size keeps every review photo the same.
+          </p>
           {address ? (
             <p className="page-link-note">
               Page link
