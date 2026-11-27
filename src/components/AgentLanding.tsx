@@ -197,7 +197,7 @@ export function AgentReviews() {
       {current && (
         <div className="review-slider">
           <button
-            className="review-arrow"
+            className="review-arrow prev"
             type="button"
             aria-label="Previous testimonial"
             disabled={items.length < 2}
@@ -220,7 +220,7 @@ export function AgentReviews() {
             <footer>{current.name}</footer>
           </button>
           <button
-            className="review-arrow"
+            className="review-arrow next"
             type="button"
             aria-label="Next testimonial"
             disabled={items.length < 2}

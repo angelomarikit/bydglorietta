@@ -1749,17 +1749,18 @@ p {
 }
 
 .review-slider {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 18px;
   padding: 0 var(--pad) 8px;
 }
 
 .review-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
   display: grid;
   place-items: center;
-  flex: none;
   width: 52px;
   height: 52px;
   border: 0;
@@ -1767,6 +1768,26 @@ p {
   background: var(--ink);
   color: white;
   cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.review-arrow.prev {
+  left: 16px;
+}
+
+.review-arrow.next {
+  right: 16px;
+}
+
+@media (max-width: 900px) {
+  .review-slider {
+    padding-left: 76px;
+    padding-right: 76px;
+  }
+
+  .review-slider .review-card {
+    width: 100%;
+  }
 }
 
 .review-arrow:disabled {
