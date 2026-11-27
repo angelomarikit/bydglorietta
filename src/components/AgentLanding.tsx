@@ -117,7 +117,7 @@ export function AgentReviews() {
 
   return (
     <section className="review-gallery" aria-label="Customer rating">
-      <p className="kicker">Customer testimonials</p>
+      <h2>Customer testimonials</h2>
       <div className="review-viewport review-static">
         <div className="review-track">
           <div className="review-set">

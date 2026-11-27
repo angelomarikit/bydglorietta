@@ -467,6 +467,17 @@ p {
   margin-bottom: 28px;
 }
 
+.agents h2 {
+  max-width: none;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .agents h2 {
+    font-size: min(48px, 6.4vw);
+  }
+}
+
 .split {
   grid-template-columns: 1.2fr 0.8fr;
   align-items: stretch;
@@ -1569,8 +1580,11 @@ p {
   padding: 8px 0 72px;
 }
 
-.review-gallery .kicker {
-  padding: 0 var(--pad) 18px;
+.review-gallery h2 {
+  padding: 0 var(--pad);
+  margin-bottom: 28px;
+  font-size: clamp(48px, 6vw, 90px);
+  max-width: 12ch;
 }
 
 .review-viewport {
