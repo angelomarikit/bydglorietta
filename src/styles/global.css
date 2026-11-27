@@ -1075,9 +1075,19 @@ p {
 .contact-brand {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  justify-content: flex-start;
+  gap: 20px;
   margin-top: 24px;
+}
+
+.contact-word {
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  text-transform: uppercase;
 }
 
 .acm {
@@ -1437,6 +1447,10 @@ p {
     place-items: center;
     margin-left: 0;
     box-shadow: 0 12px 40px rgba(13, 13, 15, 0.18);
+  }
+
+  .contact-brand {
+    justify-content: center;
   }
 
   .stat-grid,

@@ -58,7 +58,7 @@ export function ContactPage() {
             <div className="acm">
               <img src={photos.acmobility} alt="ACMobility" />
             </div>
-            <a className="btn" href="#contact-form">Contact Us</a>
+            <a className="contact-word" href="#contact-form">Contact Us</a>
           </div>
         </div>
         {sent ? (
