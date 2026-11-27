@@ -10,6 +10,7 @@ import { AgentDirectory } from "../components/AgentDirectory";
 import { CabinMarquee } from "../components/CabinMarquee";
 import { AgentReviews, AgentSales, AgentVideo } from "../components/AgentLanding";
 import { ModelCollection } from "../components/ModelCollection";
+import { QuotationForms } from "../components/QuotationForms";
 import { Vehicle360ScrollShowcase } from "../components/Vehicle360ScrollShowcase";
 import { cabinFrames, photos, posts, ratios, sealion360 } from "../data/content";
 import { useWebsite } from "../components/website-context";
@@ -39,15 +40,9 @@ export function HomePage() {
               {home.heroTitle}
             </motion.h1>
           </div>
-          {agent ? (
-            <InquiryLink className="btn gold" to="/order">
-              {home.testDrive}
-            </InquiryLink>
-          ) : (
-            <Link className="btn" to="/car-details">
-              {home.heroButton}
-            </Link>
-          )}
+          <InquiryLink className="btn gold" to="/order">
+            {home.testDrive}
+          </InquiryLink>
         </div>
       </section>
 
@@ -202,6 +197,8 @@ export function HomePage() {
         </div>
         </Reveal>
       </section>
+
+      <QuotationForms />
     </main>
   );
 }

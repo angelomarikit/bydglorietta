@@ -1000,6 +1000,81 @@ p {
   max-width: 12ch;
 }
 
+.quote-forms {
+  padding: 8px 72px 80px;
+}
+
+.quote-forms h2 {
+  max-width: 14ch;
+  margin-bottom: 28px;
+  font-size: clamp(40px, 5vw, 72px);
+}
+
+.quote-forms-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.quote-form-card {
+  display: grid;
+  gap: 16px;
+  padding: 32px 28px;
+  border-radius: 28px;
+  background: var(--light);
+}
+
+.quote-form-card h3 {
+  font-size: clamp(28px, 2.4vw, 36px);
+  margin-bottom: 4px;
+}
+
+.quote-form-card p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.quote-form-card label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.quote-form-card input,
+.quote-form-card select {
+  width: 100%;
+  min-height: 56px;
+  border: 0;
+  border-radius: 16px;
+  background: white;
+  padding: 14px 16px;
+  color: var(--ink);
+  font-size: 16px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.quote-form-card select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+  background-position: calc(100% - 22px) 50%, calc(100% - 16px) 50%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.quote-form-card .btn {
+  justify-self: start;
+  min-width: 160px;
+  margin-top: 4px;
+}
+
 .footer {
   background: var(--dark);
   color: white;
@@ -1605,6 +1680,7 @@ p {
   .service-grid,
   .inquiry-form,
   .about-team,
+  .quote-forms-grid,
   .hero-copy,
   .cta-card,
   .footer-row {
@@ -1700,6 +1776,14 @@ p {
 
   .page {
     padding: 96px var(--pad) 88px;
+  }
+
+  .quote-forms {
+    padding: 8px 16px 56px;
+  }
+
+  .quote-form-card {
+    padding: 24px 18px;
   }
 
   .hero-copy {
