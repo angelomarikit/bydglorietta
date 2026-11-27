@@ -1,4 +1,6 @@
 import { useReducedMotion } from "motion/react";
+import { X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useAgent } from "./agent-context";
 
 const STAR = "M12 2.4 14.9 8.5l6.7.9-4.9 4.6 1.2 6.6L12 17.4 6.1 20.6l1.2-6.6L2.4 9.4l6.7-.9L12 2.4Z";
@@ -18,11 +20,11 @@ function Star({ fill, id }: { fill: number; id: string }) {
   );
 }
 
-function Stars({ value }: { value: number }) {
+function Stars({ value, idPrefix }: { value: number; idPrefix: string }) {
   return (
-    <span className="rating-stars" aria-hidden="true">
+    <span className="rating-stars" aria-label={`${value.toFixed(1)} stars`}>
       {[0, 1, 2, 3, 4].map((index) => (
-        <Star key={index} id={`rating-star-${index}`} fill={value - index} />
+        <Star key={index} id={`review-star-${idPrefix}-${index}`} fill={value - index} />
       ))}
     </span>
   );
@@ -91,42 +93,72 @@ export function AgentVideo() {
 
 export function AgentReviews() {
   const agent = useAgentStory();
-  if (!agent) return null;
-  const hasRating = agent.ratingValue !== null;
-  const hasQuotes = agent.testimonials.length > 0;
-  if (!hasRating && !hasQuotes) return null;
+  const reduce = useReducedMotion();
+  const items = agent?.testimonials ?? [];
+  const [open, setOpen] = useState<number | null>(null);
 
-  const score = agent.ratingValue?.toFixed(1);
-  const reviews = agent.ratingCount === null
-    ? null
-    : agent.ratingCount === 1
-      ? "1 review"
-      : `${agent.ratingCount.toLocaleString("en-PH")} reviews`;
+  useEffect(() => {
+    if (open === null) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previous;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  if (!agent || items.length === 0) return null;
+
+  const repeats = Math.max(1, Math.ceil(6 / items.length));
+  const loop = Array.from({ length: repeats }, () => items).flat();
+  const copies = reduce ? [0] : [0, 1];
+  const seconds = Math.max(loop.length, 4) * 4;
+  const stars = agent.ratingValue;
+  const selected = open === null ? null : items[open];
 
   return (
-    <section className="agent-story agent-reviews">
-      {hasRating && (
-        <div className="agent-rating">
-          <p className="kicker">Customer rating</p>
-          <p className="agent-score">
-            <Stars value={agent.ratingValue ?? 0} />
-            <span>{score}</span>
-          </p>
-          {reviews && <p className="muted">{reviews}</p>}
+    <section className={open === null ? "review-gallery" : "review-gallery is-open"} aria-label="Customer rating">
+      <p className="kicker">Customer testimonials</p>
+      <div className={reduce ? "review-viewport review-static" : "review-viewport"}>
+        <div className="review-track" style={reduce ? undefined : { animationDuration: `${seconds}s` }}>
+          {copies.map((copy) => (
+            <div className="review-set" key={copy} aria-hidden={copy === 1}>
+              {loop.map((item, index) => (
+                <button
+                  className="review-card"
+                  type="button"
+                  key={`${copy}-${index}`}
+                  onClick={() => setOpen(index % items.length)}
+                >
+                  {stars !== null && <Stars value={stars} idPrefix={`${copy}-${index}`} />}
+                  <figure>
+                    {item.photoUrl ? (
+                      <img src={item.photoUrl} alt="" loading="lazy" decoding="async" />
+                    ) : (
+                      <span className="review-fallback">{item.quote}</span>
+                    )}
+                  </figure>
+                </button>
+              ))}
+            </div>
+          ))}
         </div>
-      )}
-      {hasQuotes && (
-        <div className="agent-quotes">
-          <p className="kicker">Customer testimonials</p>
-          <div className="quote-grid">
-            {agent.testimonials.map((item) => (
-              <blockquote className="quote-card" key={`${item.name}-${item.quote}`}>
-                {item.photoUrl && <img src={item.photoUrl} alt="" />}
-                <p>{item.quote}</p>
-                <footer>{item.name}</footer>
-              </blockquote>
-            ))}
-          </div>
+      </div>
+      {selected && (
+        <div className="review-modal" role="dialog" aria-modal="true" aria-label={`${selected.name} testimonial`} onClick={() => setOpen(null)}>
+          <article className="review-modal-card" onClick={(event) => event.stopPropagation()}>
+            <button className="lightbox-close" type="button" aria-label="Close" onClick={() => setOpen(null)}>
+              <X />
+            </button>
+            {stars !== null && <Stars value={stars} idPrefix="modal" />}
+            {selected.photoUrl && <img src={selected.photoUrl} alt="" />}
+            <p>{selected.quote}</p>
+            <footer>{selected.name}</footer>
+          </article>
         </div>
       )}
     </section>
