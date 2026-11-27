@@ -103,9 +103,9 @@ export function HomePage() {
               </h3>
               <p>{home.priceLine}</p>
             </div>
-            <InquiryLink className="btn gold" to="/order">
-              {home.testDrive}
-            </InquiryLink>
+            <Link className="btn gold" to="/contact">
+              Request for Quotation
+            </Link>
             </div>
           </Reveal>
         </div>
@@ -130,6 +130,13 @@ export function HomePage() {
         title={home.showcaseTitle}
       />
       <CabinMarquee frames={cabinFrames} />
+      {agent && (
+        <div className="section-cta">
+          <Link className="btn gold" to="/contact">
+            Request for Quotation
+          </Link>
+        </div>
+      )}
 
       <section className="tech">
         <Reveal>
