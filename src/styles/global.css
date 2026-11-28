@@ -1070,8 +1070,8 @@ p {
 }
 
 .quote-form-card .btn {
-  justify-self: start;
-  min-width: 160px;
+  width: 100%;
+  min-height: 52px;
   margin-top: 4px;
 }
 

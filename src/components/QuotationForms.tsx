@@ -60,7 +60,7 @@ function FinancingForm() {
         <input name="phone" type="tel" required autoComplete="tel" />
       </label>
       {error && <span className="form-error">{error}</span>}
-      <button className="btn" type="submit" disabled={pending}>{pending ? "Sending" : "Send"}</button>
+      <button className="btn" type="submit" disabled={pending}>{pending ? "Sending" : "Send enquiry"}</button>
     </form>
   );
 }
@@ -123,7 +123,7 @@ function PurchaseForm() {
         <input name="phone" type="tel" required autoComplete="tel" />
       </label>
       {error && <span className="form-error">{error}</span>}
-      <button className="btn" type="submit" disabled={pending}>{pending ? "Sending" : "Send"}</button>
+      <button className="btn" type="submit" disabled={pending}>{pending ? "Sending" : "Send enquiry"}</button>
     </form>
   );
 }
