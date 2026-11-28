@@ -46,14 +46,14 @@ begin
   if not public.is_administrator() then
     raise exception 'not authorized';
   end if;
-  if page_key not in ('home', 'car', 'contact', 'drive', 'blog', 'footer', 'notes', 'service', 'registration', 'about') then
+  if save_website_page.page_key not in ('home', 'car', 'contact', 'drive', 'blog', 'footer', 'notes', 'service', 'registration', 'about') then
     raise exception 'unknown page';
   end if;
-  if fields is null or jsonb_typeof(fields) <> 'object' or octet_length(fields::text) > 100000 then
+  if save_website_page.fields is null or jsonb_typeof(save_website_page.fields) <> 'object' or octet_length(save_website_page.fields::text) > 100000 then
     raise exception 'invalid page';
   end if;
   insert into public.website_content as saved (page_key, fields)
-  values (page_key, fields)
+  values (save_website_page.page_key, save_website_page.fields)
   on conflict (page_key) do update
     set fields = excluded.fields,
         updated_at = now();
