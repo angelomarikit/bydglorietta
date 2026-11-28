@@ -77,7 +77,7 @@ export async function loadWebsite() {
 export async function saveWebsiteSection(section: WebsiteSectionKey, fields: Record<string, string>) {
   if (!supabase) throw new Error("The admin is not connected yet.");
   const { error } = await supabase.rpc("save_website_page", { page_key: section, fields });
-  if (error) throw new Error("This page could not be saved. Run the website content SQL, then try again.");
+  if (error) throw new Error(error.message || "This page could not be saved. Run the website content SQL, then try again.");
 }
 
 export async function saveWebsiteNotes(notes: WebsiteNote[]) {

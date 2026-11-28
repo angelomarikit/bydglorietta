@@ -2,16 +2,33 @@ import { FormEvent, useState } from "react";
 import { FrameImage } from "../components/FrameImage";
 import { useWebsite } from "../components/website-context";
 import { photos, ratios } from "../data/content";
+import { sendInquiry } from "../lib/inquiry";
 import { storedImage } from "../lib/website";
 
 export function ContactPage() {
   const { copy } = useWebsite();
   const contact = copy.contact;
   const [sent, setSent] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSent(true);
+    const data = new FormData(event.currentTarget);
+    setPending(true);
+    setError("");
+    try {
+      await sendInquiry("Contact Us", {
+        Name: String(data.get("name") ?? ""),
+        Email: String(data.get("email") ?? ""),
+        Message: String(data.get("message") ?? ""),
+      });
+      setSent(true);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "This form could not be sent. Try again.");
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
@@ -80,8 +97,9 @@ export function ContactPage() {
               Message
               <textarea name="message" required />
             </label>
-            <button className="btn" type="submit">
-              {contact.send}
+            {error && <span className="form-error">{error}</span>}
+            <button className="btn" type="submit" disabled={pending}>
+              {pending ? "Sending" : contact.send}
             </button>
           </form>
         )}

@@ -2,16 +2,35 @@ import { FormEvent, useState } from "react";
 import { FrameImage } from "../components/FrameImage";
 import { useWebsite } from "../components/website-context";
 import { photos, ratios } from "../data/content";
+import { sendInquiry } from "../lib/inquiry";
 import { storedImage } from "../lib/website";
 
 export function EnquirePage() {
   const { copy } = useWebsite();
   const drive = copy.drive;
   const [sent, setSent] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSent(true);
+    const data = new FormData(event.currentTarget);
+    setPending(true);
+    setError("");
+    try {
+      await sendInquiry("Test drive", {
+        Name: String(data.get("name") ?? ""),
+        Email: String(data.get("email") ?? ""),
+        Mobile: String(data.get("phone") ?? ""),
+        Variant: String(data.get("variant") ?? ""),
+        Note: String(data.get("note") ?? ""),
+      });
+      setSent(true);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "This form could not be sent. Try again.");
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
@@ -52,8 +71,9 @@ export function EnquirePage() {
               Note
               <textarea name="note" placeholder="Preferred day at Glorietta" />
             </label>
-            <button className="btn" type="submit">
-              {drive.send}
+            {error && <span className="form-error">{error}</span>}
+            <button className="btn" type="submit" disabled={pending}>
+              {pending ? "Sending" : drive.send}
             </button>
           </form>
         )}

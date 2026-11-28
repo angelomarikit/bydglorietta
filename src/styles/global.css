@@ -1594,6 +1594,10 @@ p {
   text-transform: none;
 }
 
+.inquiry-form .form-error {
+  grid-column: 1 / -1;
+}
+
 .inquiry-form .btn {
   justify-self: start;
   min-width: 180px;

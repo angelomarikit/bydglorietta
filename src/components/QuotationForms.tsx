@@ -1,18 +1,37 @@
 import { FormEvent, useState } from "react";
+import { sendInquiry } from "../lib/inquiry";
 
 function FinancingForm() {
   const [sent, setSent] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSent(true);
+    const data = new FormData(event.currentTarget);
+    setPending(true);
+    setError("");
+    try {
+      await sendInquiry("In-house Financing promo", {
+        "Vehicle model": String(data.get("vehicle") ?? ""),
+        Downpayment: String(data.get("downpayment") ?? ""),
+        Term: String(data.get("term") ?? ""),
+        "Email address": String(data.get("email") ?? ""),
+        "Contact number": String(data.get("phone") ?? ""),
+      });
+      setSent(true);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "This form could not be sent. Try again.");
+    } finally {
+      setPending(false);
+    }
   }
 
   if (sent) {
     return (
       <div className="quote-form-card">
         <h3>In-house Financing promo</h3>
-        <p>Your financing quotation request is kept on this page.</p>
+        <p>Your financing quotation request was sent.</p>
       </div>
     );
   }
@@ -40,24 +59,42 @@ function FinancingForm() {
         Contact number
         <input name="phone" type="tel" required autoComplete="tel" />
       </label>
-      <button className="btn" type="submit">Send</button>
+      {error && <span className="form-error">{error}</span>}
+      <button className="btn" type="submit" disabled={pending}>{pending ? "Sending" : "Send"}</button>
     </form>
   );
 }
 
 function PurchaseForm() {
   const [sent, setSent] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSent(true);
+    const data = new FormData(event.currentTarget);
+    setPending(true);
+    setError("");
+    try {
+      await sendInquiry("Purchase quotation", {
+        "Purchase type": String(data.get("purchase") ?? ""),
+        "Vehicle model": String(data.get("vehicle") ?? ""),
+        "Email address": String(data.get("email") ?? ""),
+        "Contact number": String(data.get("phone") ?? ""),
+      });
+      setSent(true);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "This form could not be sent. Try again.");
+    } finally {
+      setPending(false);
+    }
   }
 
   if (sent) {
     return (
       <div className="quote-form-card">
         <h3>Purchase quotation</h3>
-        <p>Your quotation request is kept on this page.</p>
+        <p>Your quotation request was sent.</p>
       </div>
     );
   }
@@ -85,7 +122,8 @@ function PurchaseForm() {
         Contact number
         <input name="phone" type="tel" required autoComplete="tel" />
       </label>
-      <button className="btn" type="submit">Send</button>
+      {error && <span className="form-error">{error}</span>}
+      <button className="btn" type="submit" disabled={pending}>{pending ? "Sending" : "Send"}</button>
     </form>
   );
 }
