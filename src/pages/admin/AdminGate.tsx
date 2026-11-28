@@ -15,6 +15,20 @@ export function AdminGate() {
   const [pending, setPending] = useState(false);
 
   useEffect(() => {
+    let meta = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "robots";
+      document.head.appendChild(meta);
+    }
+    const previous = meta.content;
+    meta.content = "noindex, nofollow";
+    return () => {
+      meta.content = previous;
+    };
+  }, []);
+
+  useEffect(() => {
     if (!supabase) {
       setReady(true);
       return;

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /agent/
+
+Sitemap: https://bydglorietta.com/sitemap.xml

@@ -6,6 +6,7 @@ import { AgentContext, ContactModalContext } from "../components/agent-context";
 import { InquiryLink } from "../components/InquiryLink";
 import { photos } from "../data/content";
 import { contactOptions, getPublicAgent, type PublicAgent } from "../lib/agents";
+import { Seo } from "../components/Seo";
 import { useWebsite } from "../components/website-context";
 import { NotFoundPage } from "../pages/NotFoundPage";
 
@@ -52,29 +53,12 @@ export function SiteLayout() {
     };
   }, [agentIdentifier]);
 
-  useEffect(() => {
-    if (!agentIdentifier) return;
-    const existing = document.querySelector('meta[name="robots"]');
-    const meta = existing ?? document.createElement("meta");
-    const created = !existing;
-    if (created) {
-      meta.setAttribute("name", "robots");
-      document.head.appendChild(meta);
-    }
-    const previous = meta.getAttribute("content");
-    meta.setAttribute("content", "noindex");
-    return () => {
-      if (created) meta.remove();
-      else if (previous === null) meta.removeAttribute("content");
-      else meta.setAttribute("content", previous);
-    };
-  }, [agentIdentifier]);
-
   const agent = agentState.status === "ready" ? agentState.agent : null;
   const waiting = Boolean(agentIdentifier) && agentState.status === "loading";
 
   return (
     <AgentContext.Provider value={agent}>
+      <Seo copy={copy} agentPage={Boolean(agentIdentifier)} />
       <ContactModalContext.Provider value={{ open: () => setContactOpen(true) }}>
         {agentIdentifier ? (
           <div className="brand" aria-label="BYD Glorietta">
