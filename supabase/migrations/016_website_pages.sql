@@ -42,19 +42,22 @@ language plpgsql
 security definer
 set search_path = public
 as $$
+declare
+  chosen_page text := save_website_page.page_key;
+  chosen_fields jsonb := save_website_page.fields;
 begin
   if not public.is_administrator() then
     raise exception 'not authorized';
   end if;
-  if save_website_page.page_key not in ('home', 'car', 'contact', 'drive', 'blog', 'footer', 'notes', 'service', 'registration', 'about') then
+  if chosen_page not in ('home', 'car', 'contact', 'drive', 'blog', 'footer', 'notes', 'service', 'registration', 'about') then
     raise exception 'unknown page';
   end if;
-  if save_website_page.fields is null or jsonb_typeof(save_website_page.fields) <> 'object' or octet_length(save_website_page.fields::text) > 100000 then
+  if chosen_fields is null or jsonb_typeof(chosen_fields) <> 'object' or octet_length(chosen_fields::text) > 100000 then
     raise exception 'invalid page';
   end if;
-  insert into public.website_content as saved (page_key, fields)
-  values (save_website_page.page_key, save_website_page.fields)
-  on conflict (page_key) do update
+  insert into public.website_content (page_key, fields)
+  values (chosen_page, chosen_fields)
+  on conflict on constraint website_content_pkey do update
     set fields = excluded.fields,
         updated_at = now();
 end;
