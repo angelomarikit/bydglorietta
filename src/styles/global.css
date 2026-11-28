@@ -1152,9 +1152,12 @@ p {
 .contact-people strong,
 .contact-people a {
   font-family: var(--display);
-  font-size: 22px;
+  font-size: 15px;
   font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   color: var(--ink);
+  text-decoration: none;
 }
 
 .contact-brand {
